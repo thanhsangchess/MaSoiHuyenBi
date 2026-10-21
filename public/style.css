@@ -287,3 +287,8 @@ body.in-game .village-screen>.game-tab-body .role-action-panel{min-height:0!impo
 body.in-game .village-screen>.game-tab-body .role-confirm{min-height:36px!important;flex:0 0 auto!important}
 @media(max-height:680px){body.in-game .village-screen .village-grid .player{height:clamp(32px,6.2dvh,44px)!important}body.in-game .village-screen>.village-role-strip{display:none!important}body.in-game .village-screen>.village-brand{height:17px!important;flex-basis:17px!important}}
 @media(max-height:490px){body.in-game .village-screen>.village-board{max-height:calc(100dvh - 200px)!important}body.in-game .village-screen .village-grid .player{height:30px!important}body.in-game .village-screen>.turn-banner small{display:none!important}}
+
+/* Public hypnosis indicator: visible in day/night without obscuring targets */
+.village-grid .player.is-hypnotized:not(.dead){border:2px solid #bd8aff!important;box-shadow:inset 0 0 0 1px #dfcaff,0 0 7px #9d5ce088!important}
+.village-grid .player .hypnotized-mark{position:absolute;right:2px;bottom:2px;z-index:3;max-width:90%;font-size:8px;line-height:1.2;font-weight:800;white-space:nowrap;border-radius:5px;padding:1px 3px;background:#6d31a7;color:#fff;border:1px solid #e1b9ff;pointer-events:none}
+.village-grid .player.dead .hypnotized-mark{opacity:.75}
