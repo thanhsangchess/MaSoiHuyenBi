@@ -113,3 +113,11 @@ body.in-game .app{height:100dvh;min-height:0;max-width:640px;padding:env(safe-ar
 .game-tab-body .composer{flex:0 0 auto}
 @media(max-height:700px){.game-screen>.phase{padding:3px 7px}.game-screen>.phase h2{font-size:14px}.game-screen>.phase .clock{font-size:18px}.game-screen .gridplayers .avatar{width:23px;height:23px;font-size:15px}.game-screen .gridplayers .player{padding:2px 1px}.game-tabs button{padding:5px 2px}}
 @media(min-width:540px){.game-screen .gridplayers{grid-template-columns:repeat(6,minmax(0,1fr))}}
+
+/* Private elimination notification for the affected player */
+.elimination-overlay{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:18px;background:#050916c9;backdrop-filter:blur(6px)}
+.elimination-dialog{width:min(100%,380px);max-height:calc(100dvh - 36px);overflow-y:auto;border:1px solid #a98dcb;border-radius:22px;background:linear-gradient(160deg,#302847,#151d34);box-shadow:0 20px 70px #000b;padding:22px;text-align:center}
+.elimination-symbol{font-size:52px;margin-bottom:7px}
+.elimination-dialog h2{color:#ffe0a5;font-family:Georgia,serif;margin:6px 0 12px;font-size:25px}
+.elimination-dialog p{line-height:1.5;font-size:14px}
+.elimination-dialog .btn{margin-top:14px}
