@@ -363,3 +363,52 @@ body.in-game .village-screen>.game-tab-body .role-confirm{min-height:38px!import
  body.in-game .village-screen .village-grid .player small{display:none!important}
  body.in-game .village-screen>.village-role-strip{display:none!important}
 }
+
+/* Village-inspired battle v4: illustrated board above a functional lower console. */
+body.in-game .app.app-room>.village-screen{gap:4px!important;padding:4px!important}
+body.in-game .village-screen>.village-sky{pointer-events:none!important}
+body.in-game .village-screen>.village-brand{flex:0 0 22px!important;min-height:22px!important;height:22px!important;max-height:22px!important;margin:0!important;padding:2px 5px!important;border-radius:7px!important;font-size:11px!important}
+body.in-game .village-screen>.village-phase{flex:0 0 36px!important;height:36px!important;min-height:36px!important;max-height:36px!important;margin:0!important;padding:3px 8px!important;border-radius:8px!important}
+body.in-game .village-screen>.village-phase .badge{font-size:11px!important;padding:3px 6px!important}
+body.in-game .village-screen>.village-phase .clock{font-size:22px!important}
+body.in-game .village-screen>.village-phase small{font-size:10px!important}
+body.in-game .village-screen>.turn-banner{flex:0 0 auto!important;min-height:0!important;max-height:44px!important;padding:4px 7px!important;margin:0!important;border-radius:8px!important}
+body.in-game .village-screen>.turn-banner .turn-emblem{font-size:19px!important}
+body.in-game .village-screen>.turn-banner strong{font-size:11px!important}
+body.in-game .village-screen>.turn-banner small{font-size:10px!important;line-height:1.15!important}
+body.in-game .village-screen>.village-board{flex:0 0 auto!important;width:100%!important;height:auto!important;min-height:0!important;max-height:calc(100dvh - 235px)!important;overflow:hidden!important;padding:5px!important;margin:0!important;border-radius:10px!important}
+body.in-game .village-screen>.village-board>.heading{height:18px!important;margin:0 0 4px!important}
+body.in-game .village-screen>.village-board>.heading h3{font-size:12px!important;margin:0!important}
+body.in-game .village-screen .village-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:4px!important}
+body.in-game .village-screen .village-grid .player{box-sizing:border-box!important;aspect-ratio:auto!important;min-width:0!important;width:100%!important;height:clamp(72px,11dvh,104px)!important;min-height:0!important;max-height:104px!important;padding:3px 2px 4px!important;gap:2px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;border-radius:8px!important;overflow:hidden!important}
+body.in-game .village-screen .village-grid .player .avatar{width:clamp(35px,5.7dvh,52px)!important;height:clamp(35px,5.7dvh,52px)!important;min-height:0!important;flex:0 0 auto!important}
+body.in-game .village-screen .village-grid .player strong{position:static!important;display:block!important;width:96%!important;max-width:96%!important;font-size:clamp(10px,1.6dvh,12px)!important;line-height:1.1!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;opacity:1!important;color:inherit!important}
+body.in-game .village-screen .village-grid .player small{position:static!important;display:block!important;font-size:9px!important;line-height:1!important;white-space:nowrap!important;opacity:.85!important;color:inherit!important}
+body.in-game .village-screen .village-grid .player .vote-prompt{position:static!important;display:block!important;font-size:9px!important;line-height:1!important;white-space:nowrap!important;color:#ffdc78!important}
+body.in-game .village-screen .village-grid .player.selected{border:2px solid #31e4a0!important;box-shadow:inset 0 0 0 1px #b5ffe3,0 0 6px #35e9b7!important}
+body.in-game .village-screen>.village-role-strip{flex:0 0 19px!important;min-height:19px!important;max-height:19px!important;padding:1px 6px!important;font-size:11px!important;line-height:17px!important}
+body.in-game .village-screen>.game-tabs{flex:0 0 33px!important;height:33px!important;min-height:33px!important;max-height:33px!important;gap:4px!important;margin:0!important}
+body.in-game .village-screen>.game-tabs button{height:33px!important;min-height:33px!important;max-height:33px!important;font-size:11px!important;padding:4px 1px!important}
+body.in-game .village-screen>.game-tab-body,body.in-game .village-screen.village-discussion>.game-tab-body{flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;padding:3px!important;margin:0!important;border-radius:10px!important;background:rgba(15,23,49,.12)!important}
+body.in-game .village-screen>.game-tab-body>.panel{margin:0!important;padding:8px!important}
+body.in-game .village-screen>.game-tab-body .role-action-panel{min-height:0!important;gap:5px!important;padding:8px!important}
+body.in-game .village-screen>.game-tab-body .role-action-heading{padding:5px!important;gap:7px!important}
+body.in-game .village-screen>.game-tab-body .role-action-heading p{margin:2px 0!important;font-size:11px!important;line-height:1.2!important}
+body.in-game .village-screen>.game-tab-body .role-confirm{min-height:38px!important;flex:0 0 auto!important}
+body.in-game .village-screen>.game-tab-body .chat{height:auto!important;min-height:75px!important;max-height:none!important;flex:1 1 auto!important;overflow-y:auto!important}
+body.in-game .village-screen>.game-tab-body>.panel:has(.chat){display:flex!important;flex-direction:column!important;min-height:100%!important;height:100%!important}
+body.in-game .village-screen>.game-tab-body .composer{flex:0 0 auto!important}
+body.in-game .village-screen>.game-tab-body .lynch-panel{gap:5px!important}
+body.in-game .village-screen>.game-tab-body .lynch-panel h3{font-size:14px!important}
+body.in-game .village-screen>.game-tab-body .lynch-panel p{font-size:11px!important}
+@media(max-height:730px){
+ body.in-game .village-screen .village-grid .player{height:clamp(56px,9.5dvh,76px)!important}
+ body.in-game .village-screen .village-grid .player .avatar{width:clamp(27px,4.5dvh,37px)!important;height:clamp(27px,4.5dvh,37px)!important}
+ body.in-game .village-screen>.village-board{max-height:calc(100dvh - 205px)!important}
+}
+@media(max-height:530px){
+ body.in-game .village-screen .village-grid .player{height:48px!important}
+ body.in-game .village-screen .village-grid .player .avatar{width:22px!important;height:22px!important}
+ body.in-game .village-screen .village-grid .player small{display:none!important}
+ body.in-game .village-screen>.turn-banner small{display:none!important}
+}
