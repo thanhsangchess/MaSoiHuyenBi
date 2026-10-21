@@ -63,3 +63,7 @@
 .player.vote-target:focus-visible{outline:3px solid #ffda8c;outline-offset:2px}
 .player.vote-target .vote-prompt{font-size:10px;font-weight:800;color:#ffdc95;margin-top:2px}
 .player.vote-target:disabled{opacity:.65;cursor:wait}
+
+/* Shared role target picker */
+.player.vote-target.selected{border:2px solid #ffe0a0;background:linear-gradient(155deg,#574373,#34315b);box-shadow:0 0 0 2px #ffd67a40,0 5px 18px #0006}
+.player.vote-target.selected .vote-prompt{color:#fff0b5}
