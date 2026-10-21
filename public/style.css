@@ -412,3 +412,13 @@ body.in-game .village-screen>.game-tab-body .lynch-panel p{font-size:11px!import
  body.in-game .village-screen .village-grid .player small{display:none!important}
  body.in-game .village-screen>.turn-banner small{display:none!important}
 }
+
+/* Compact chat with independent history scrolling, keeping message composer visible. */
+body.in-game .village-screen>.game-tab-body:has(.chat){display:flex!important;flex-direction:column!important;align-items:stretch!important;overflow:hidden!important;min-height:0!important}
+body.in-game .village-screen>.game-tab-body>.panel:has(.chat){box-sizing:border-box!important;display:flex!important;flex-direction:column!important;flex:0 1 auto!important;width:100%!important;height:auto!important;min-height:0!important;max-height:min(38dvh,310px)!important;overflow:hidden!important;margin:0!important;padding:7px!important;gap:5px!important}
+body.in-game .village-screen>.game-tab-body>.panel:has(.chat)>h3{flex:0 0 auto!important;font-size:12px!important;line-height:1.15!important;margin:0!important}
+body.in-game .village-screen>.game-tab-body .chat{box-sizing:border-box!important;display:block!important;flex:1 1 auto!important;height:clamp(88px,23dvh,210px)!important;min-height:75px!important;max-height:210px!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding:5px!important}
+body.in-game .village-screen>.game-tab-body .composer{display:flex!important;flex:0 0 auto!important;min-height:36px!important;margin:0!important;gap:5px!important}
+body.in-game .village-screen>.game-tab-body .composer input{min-width:0!important;flex:1 1 auto!important}
+body.in-game .village-screen>.game-tab-body .composer button{flex:0 0 auto!important}
+@media(max-height:650px){body.in-game .village-screen>.game-tab-body>.panel:has(.chat){max-height:32dvh!important}body.in-game .village-screen>.game-tab-body .chat{height:clamp(70px,18dvh,140px)!important;min-height:55px!important}}
