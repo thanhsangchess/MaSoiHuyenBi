@@ -422,3 +422,19 @@ body.in-game .village-screen>.game-tab-body .composer{display:flex!important;fle
 body.in-game .village-screen>.game-tab-body .composer input{min-width:0!important;flex:1 1 auto!important}
 body.in-game .village-screen>.game-tab-body .composer button{flex:0 0 auto!important}
 @media(max-height:650px){body.in-game .village-screen>.game-tab-body>.panel:has(.chat){max-height:32dvh!important}body.in-game .village-screen>.game-tab-body .chat{height:clamp(70px,18dvh,140px)!important;min-height:55px!important}}
+
+/* Lobby: fit all twelve players in the roster without clipping the final row. */
+.app-room:has(.lobby-tabs) .lobby-content:has(.gridplayers){min-height:0!important;overflow:hidden!important}
+.app-room:has(.lobby-tabs) .lobby-content>.panel:has(.gridplayers){box-sizing:border-box!important;display:flex!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important;padding:5px!important}
+.app-room:has(.lobby-tabs) .lobby-content>.panel:has(.gridplayers)>.heading{flex:0 0 24px!important;min-height:24px!important;margin:0 0 4px!important}
+.app-room:has(.lobby-tabs) .lobby-content .gridplayers{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;gap:4px!important;flex:1 1 auto!important;min-height:0!important;max-height:100%!important;overflow-y:auto!important;overscroll-behavior-y:contain!important;align-content:start!important}
+.app-room:has(.lobby-tabs) .lobby-content .player{box-sizing:border-box!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;min-height:0!important;height:100%!important;max-height:100%!important;aspect-ratio:auto!important;overflow:hidden!important;padding:3px 2px!important}
+.app-room:has(.lobby-tabs) .lobby-content .player .avatar{width:clamp(24px,4.3dvh,37px)!important;height:clamp(24px,4.3dvh,37px)!important;flex:0 0 auto!important;margin:0!important}
+.app-room:has(.lobby-tabs) .lobby-content .player strong{font-size:clamp(9px,1.45dvh,12px)!important;line-height:1.1!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:98%!important}
+.app-room:has(.lobby-tabs) .lobby-content .player small{font-size:clamp(8px,1.25dvh,10px)!important;line-height:1.1!important;white-space:nowrap!important}
+.app-room:has(.lobby-tabs) .lobby-content .player .kickbtn{box-sizing:border-box!important;min-height:21px!important;height:21px!important;max-height:21px!important;width:98%!important;padding:1px 2px!important;margin:0!important;font-size:9px!important;line-height:1!important;flex:0 0 auto!important}
+@media(max-height:720px){
+ .app-room:has(.lobby-tabs) .lobby-content .player .avatar{width:25px!important;height:25px!important}
+ .app-room:has(.lobby-tabs) .lobby-content .player .kickbtn{min-height:18px!important;height:18px!important;max-height:18px!important}
+ .app-room:has(.lobby-tabs) .lobby-content .player{gap:1px!important;padding:2px!important}
+}
