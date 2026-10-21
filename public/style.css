@@ -128,3 +128,5 @@ body.in-game .app{height:100dvh;min-height:0;max-width:640px;padding:env(safe-ar
 .player.dead strong{color:#fff0f0!important}
 .player.dead small{color:#ffb4bf!important;font-weight:800}
 .player.dead .player-number{background:#aa2940;border-color:#ff8698;color:#fff}
+
+.home-author{text-align:center;color:#b9b4d0;font-size:12px;letter-spacing:.2px;padding:4px 8px 16px}.home-author strong{color:#f4ce83;font-weight:750}
