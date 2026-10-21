@@ -55,6 +55,7 @@ function resolveNightRole(r){let role=r.nightRole;let acts=Object.values(r.actio
  if(role==='seer'){for(let a of acts){let p=find(r,a.player),t=find(r,a.target);if(p&&t)p.privateInfo=`Tiên tri đã soi ${t.name}: ${isWolf(t)?'Phe Sói':'Không phải Ma Sói'}.`;}}
  if(role==='wolf'){let count={};for(let a of acts){if(find(r,a.target)?.alive)count[a.target]=(count[a.target]||0)+1}let max=Math.max(0,...Object.values(count));let top=Object.keys(count).filter(id=>count[id]===max);r.nightData.wolf=max&&top.length?top[Math.floor(Math.random()*top.length)]:null;}
  if(role==='hypnotist'){for(const a of acts){const p=find(r,a.player),t=find(r,a.target);if(p?.alive&&t?.alive&&!t.hypnotized&&t.id!==p.id){t.hypnotized=true;p.privateInfo=`Đã thôi miên ${t.name}.`;}}}
+ if(role==='hypnotist'&&check(r))return;
  if(role==='witch'){for(let a of acts){let p=find(r,a.player);if(!p)continue;if(a.choice==='heal'&&p.witchHeal&&r.nightData.wolf){r.nightData.heal=true;p.witchHeal=false}if(a.choice==='poison'&&p.witchPoison&&find(r,a.target)?.alive){r.nightData.poison=a.target;p.witchPoison=false}}}
  advanceNight(r)}
 function resolveNight(r){if(check(r))return;let d=r.nightData,dead=[];if(d.wolf&&!(d.heal||d.guard===d.wolf))dead.push(d.wolf);if(d.poison)dead.push(d.poison);let out=eliminate(r,dead,'Đêm qua đã mất');if(!out.length)system(r,'Đêm qua là một đêm bình yên.');afterDeaths(r,out)}
