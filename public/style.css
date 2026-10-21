@@ -12,3 +12,8 @@
 .love-message.mine{align-self:flex-end;background:#75415e;border-radius:13px 13px 3px 13px}
 .love-message small{display:block;color:#f4bcd9;margin-bottom:4px}
 .love-panel .composer input{min-width:0}
+
+/* Public lobby role composition */
+.role-count-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+.role-count{display:flex;align-items:center;gap:7px;min-width:0;padding:10px;background:#232d49;border:1px solid #495676;border-radius:11px;font-size:12px}
+.role-count span:first-child{font-size:23px}.role-count span:nth-child(2){flex:1;min-width:0}.role-count strong{font-size:16px;color:#f4ce83}
