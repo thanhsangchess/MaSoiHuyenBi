@@ -320,3 +320,46 @@ body.in-game .village-screen.village-decision>.village-chat{display:none!importa
 body.in-game .village-screen>.game-tab-body .role-action-panel{overflow:hidden!important}
 body.in-game .village-screen>.game-tab-body .role-action-instruction{font-size:11px!important}
 body.in-game .village-screen>.game-tab-body .role-picked-area{min-height:0!important}
+
+/* Battle mobile layout v3: fixed readable board, no stretched chat/empty area. */
+body.in-game .app.app-room>.village-screen{gap:5px!important;padding:5px 6px!important}
+body.in-game .village-screen>.village-brand{flex:0 0 21px!important;height:21px!important;min-height:21px!important;max-height:21px!important;line-height:21px!important;overflow:hidden!important;font-size:11px!important;text-align:center!important}
+body.in-game .village-screen>.village-phase{flex:0 0 38px!important;height:38px!important;min-height:38px!important;max-height:38px!important;padding:3px 9px!important;border-radius:10px!important}
+body.in-game .village-screen>.village-phase .clock{font-size:23px!important;line-height:1!important}
+body.in-game .village-screen>.turn-banner{flex:0 0 auto!important;height:auto!important;min-height:35px!important;max-height:52px!important;padding:5px 8px!important;gap:7px!important;border-radius:10px!important}
+body.in-game .village-screen>.turn-banner strong{font-size:12px!important;line-height:1.1!important}
+body.in-game .village-screen>.turn-banner small{display:block!important;font-size:10px!important;line-height:1.2!important;max-height:25px!important;overflow:hidden!important}
+body.in-game .village-screen>.village-board{flex:0 0 auto!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;padding:6px!important;border-radius:12px!important}
+body.in-game .village-screen>.village-board>.heading{height:21px!important;margin:0 0 5px!important}
+body.in-game .village-screen>.village-board>.hint{display:none!important}
+body.in-game .village-screen .village-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;align-items:stretch!important}
+body.in-game .village-screen .village-grid .player{box-sizing:border-box!important;aspect-ratio:auto!important;width:100%!important;height:clamp(65px,10dvh,88px)!important;min-height:65px!important;max-height:88px!important;padding:3px 2px 4px!important;gap:2px!important;justify-content:flex-start!important;overflow:hidden!important;border-radius:9px!important}
+body.in-game .village-screen .village-grid .player .avatar{width:clamp(28px,4.7dvh,40px)!important;height:clamp(28px,4.7dvh,40px)!important;min-height:28px!important;flex:0 0 auto!important;margin:0!important}
+body.in-game .village-screen .village-grid .player strong{display:block!important;position:static!important;max-width:96%!important;font-size:clamp(10px,1.5dvh,12px)!important;line-height:1.12!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;color:inherit!important;opacity:1!important}
+body.in-game .village-screen .village-grid .player small{display:block!important;position:static!important;font-size:9px!important;line-height:1!important;color:inherit!important;opacity:.85!important;white-space:nowrap!important}
+body.in-game .village-screen .village-grid .player .vote-prompt{display:block!important;position:static!important;margin:0!important;padding:0!important;font-size:9px!important;line-height:1!important;color:#fff0a7!important;white-space:nowrap!important}
+body.in-game .village-screen .village-grid .player .hypnotized-mark{bottom:1px!important;right:1px!important;font-size:7px!important;max-width:96%!important}
+body.in-game .village-screen .village-grid .player.is-hypnotized .vote-prompt{visibility:hidden!important}
+body.in-game .village-screen>.village-role-strip{flex:0 0 20px!important;min-height:20px!important;max-height:20px!important;padding:2px 5px!important;line-height:16px!important}
+body.in-game .village-screen>.village-chat{display:none!important}
+body.in-game .village-screen.village-discussion>.village-chat{display:none!important}
+body.in-game .village-screen>.game-tabs{flex:0 0 35px!important;min-height:35px!important;max-height:35px!important;gap:5px!important}
+body.in-game .village-screen>.game-tabs button{height:35px!important;min-height:35px!important;max-height:35px!important;font-size:11px!important;border-radius:9px!important}
+body.in-game .village-screen>.game-tab-body,body.in-game .village-screen.village-discussion>.game-tab-body{flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:2px 2px 7px!important}
+body.in-game .village-screen>.game-tab-body .role-action-panel{overflow:visible!important;min-height:0!important;padding:8px!important;gap:6px!important}
+body.in-game .village-screen>.game-tab-body .role-action-heading{padding:5px!important}
+body.in-game .village-screen>.game-tab-body .role-action-heading p{font-size:11px!important;line-height:1.25!important;margin:2px 0!important}
+body.in-game .village-screen>.game-tab-body .role-confirm{min-height:38px!important}
+@media(max-height:700px){
+ body.in-game .village-screen .village-grid .player{height:clamp(53px,8.8dvh,65px)!important;min-height:53px!important}
+ body.in-game .village-screen .village-grid .player .avatar{width:25px!important;height:25px!important;min-height:25px!important}
+ body.in-game .village-screen .village-grid .player strong{font-size:9px!important}
+ body.in-game .village-screen .village-grid .player small{font-size:8px!important}
+ body.in-game .village-screen>.turn-banner small{display:none!important}
+}
+@media(max-height:490px){
+ body.in-game .village-screen .village-grid .player{height:42px!important;min-height:42px!important}
+ body.in-game .village-screen .village-grid .player .avatar{width:20px!important;height:20px!important;min-height:20px!important}
+ body.in-game .village-screen .village-grid .player small{display:none!important}
+ body.in-game .village-screen>.village-role-strip{display:none!important}
+}
