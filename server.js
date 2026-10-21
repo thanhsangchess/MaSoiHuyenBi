@@ -6,6 +6,17 @@ import { randomBytes, randomUUID } from 'node:crypto';
 const app=express();const server=http.createServer(app);const io=new Server(server,{pingTimeout:20000,cors:{origin:false}});
 app.use(express.static('public'));
 const rooms=new Map();
+// Durable snapshots require Upstash Redis REST credentials in Render environment.
+const redisUrl=(process.env.UPSTASH_REDIS_REST_URL||'').replace(/\\/$/,'');
+const redisToken=process.env.UPSTASH_REDIS_REST_TOKEN||'';
+const persistenceEnabled=!!(redisUrl&&redisToken);
+const persistenceKey='ma-soi-huyen-bi:rooms:v1';
+let saveQueue=Promise.resolve();
+function snapshot(){return JSON.stringify([...rooms.values()].map(r=>{const {timer,...data}=r;return {...data,players:r.players.map(p=>({...p,socketId:null,online:false}))}}))}
+function persist(){if(!persistenceEnabled)return;const payload=snapshot();saveQueue=saveQueue.catch(()=>{}).then(async()=>{const response=await fetch(redisUrl+'/set/'+encodeURIComponent(persistenceKey),{method:'POST',headers:{Authorization:'Bearer '+redisToken,'Content-Type':'text/plain'},body:payload});if(!response.ok)throw Error('Redis snapshot failed: '+response.status)}).catch(e=>console.error('Lưu phòng thất bại:',e.message));}
+async function restoreRooms(){if(!persistenceEnabled){console.warn('Chưa cấu hình UPSTASH_REDIS_REST_URL và UPSTASH_REDIS_REST_TOKEN: phòng sẽ mất khi Render khởi động lại.');return}try{const response=await fetch(redisUrl+'/get/'+encodeURIComponent(persistenceKey),{headers:{Authorization:'Bearer '+redisToken}});if(!response.ok)throw Error('Redis restore failed: '+response.status);const result=await response.json();if(!result.result)return;const saved=JSON.parse(result.result);if(!Array.isArray(saved))throw Error('Invalid room snapshot');for(const data of saved){if(!data||!Array.isArray(data.players)||!data.code)continue;data.timer=null;data.players=data.players.map(p=>({...p,online:false,socketId:null}));rooms.set(data.code,data)}console.log('Đã khôi phục',rooms.size,'phòng');for(const r of rooms.values())resumeTimer(r)}catch(e){console.error('Không thể khôi phục phòng:',e.message);throw e}}
+function resumeTimer(r){if(!r.deadline||['lobby','ended'].includes(r.phase))return;const callbacks={reveal:beginFirstNight,discussion:startVote,vote:resolveVote,lynch:resolveLynch,night:resolveNightRole,hunter:nextAfterDeaths};const fn=callbacks[r.phase];if(!fn)return;const ms=Math.max(0,r.deadline-Date.now());r.timer=setTimeout(()=>{r.timer=null;if(r.phase==='hunter'){r.hunterId=null;nextAfterDeaths(r)}else fn(r)},ms)}
+
 const ROLES={wolf:'Ma Sói',villager:'Dân làng',seer:'Tiên tri',witch:'Phù thủy',guard:'Bảo vệ',hunter:'Thợ săn',cupid:'Cupid',fool:'Thằng ngố',hypnotist:'Thôi miên'};
 const SPECIAL=['seer','witch','guard','hunter','cupid'];
 const NIGHT_ORDER=['cupid','guard','wolf','seer','hunter','witch','hypnotist'];
@@ -36,7 +47,7 @@ function view(r,p){const v=roomPublic(r);v.self={id:p.id,role:p.role,alive:p.ali
  if(r.phase==='lynch'&&p.alive&&p.id!==r.lynchTarget)v.action={kind:'lynch',submitted:!!r.lynchVotes[p.id]};
  if(r.phase==='vote'&&p.alive)v.action={kind:'vote',targets:living(r).filter(x=>x.id!==p.id).map(x=>({id:x.id,name:x.name})),submitted:!!r.votes[p.id]};
  if(r.phase==='ended')v.reveal=r.players.map(x=>({id:x.id,name:x.name,role:x.role}));return v;}
-function emit(r){io.emit('room:list-updated');io.to(r.code).emit('room:public',roomPublic(r));for(const p of r.players){if(p.socketId)io.to(p.socketId).emit('room:state',view(r,p));}}
+function emit(r){persist();io.emit('room:list-updated');io.to(r.code).emit('room:public',roomPublic(r));for(const p of r.players){if(p.socketId)io.to(p.socketId).emit('room:state',view(r,p));}}
 function targets(r,p){const alive=living(r);let xs=[];switch(p.role){case 'wolf':xs=alive;break;case 'seer':xs=alive.filter(x=>x.id!==p.id);break;case 'hunter':xs=alive.filter(x=>x.id!==p.id);break;case 'guard':xs=alive.filter(x=>x.id!==r.lastGuard);break;case 'witch':xs=alive.filter(x=>x.id!==p.id);break;case 'cupid':xs=alive;break;case 'hypnotist':xs=alive.filter(x=>x.id!==p.id&&!x.hypnotized);break;default:xs=[];}return xs.map(x=>({id:x.id,name:x.name}));}
 function clear(r){if(r.timer)clearTimeout(r.timer);r.timer=null;}
 function schedule(r,secs,fn){clear(r);r.deadline=Date.now()+secs*1000;r.timer=setTimeout(()=>{r.timer=null;fn(r)},secs*1000);emit(r)}
@@ -69,7 +80,7 @@ function startGame(r){r.afterHunter=null;let roles=byCount(r);r.players.forEach(
 function ack(cb,obj){if(typeof cb==='function')cb(obj)}
 function error(cb,msg){ack(cb,{ok:false,error:msg})}
 function authenticate(socket,cb){const r=rooms.get(socket.data.code);const p=r&&find(r,socket.data.playerId);if(!r||!p||p.socketId!==socket.id){error(cb,'Phiên kết nối không hợp lệ.');return null}return {r,p}}
-function cleanup(r){if(!r.players.length){clear(r);rooms.delete(r.code);io.emit('room:list-updated')}else{if(!find(r,r.host))r.host=r.players[0].id;emit(r)}}
+function cleanup(r){if(!r.players.length){clear(r);rooms.delete(r.code);persist();io.emit('room:list-updated')}else{if(!find(r,r.host))r.host=r.players[0].id;emit(r)}}
 io.on('connection',socket=>{
  socket.on('room:list',(data,cb)=>{if(typeof data==='function')cb=data;ack(cb,{ok:true,rooms:[...rooms.values()].filter(r=>r.phase==='lobby'&&!r.private&&r.players.length<r.settings.max).map(r=>({code:r.code,name:r.name,count:r.players.length,max:r.settings.max}))});});
  socket.on('room:create',(data={},cb)=>{let name=clean(data.name,24)||'Ngôi Làng Bí Ẩn';let playerName=clean(data.playerName,18)||'Khách';let id=randomUUID();let r={code:code(),name,private:!!data.private,host:id,phase:'lobby',day:0,deadline:null,players:[],messages:[],timer:null,settings:{max:12,discussion:Math.min(240,Math.max(30,Number(data.discussion)||DEFAULT.discussion)),vote:DEFAULT.vote,night:DEFAULT.night,specials:SPECIAL},votes:{},actions:{}};while(rooms.has(r.code))r.code=code();let p={id,name:playerName,socketId:socket.id,online:true,ready:false,alive:true,role:null,avatar:'explorer'};r.players.push(p);rooms.set(r.code,r);socket.join(r.code);socket.data={code:r.code,playerId:id};ack(cb,{ok:true,code:r.code,playerId:id});emit(r)});
@@ -94,4 +105,4 @@ io.on('connection',socket=>{
  socket.on('disconnect',()=>{let r=rooms.get(socket.data.code),p=r&&find(r,socket.data.playerId);if(p&&p.socketId===socket.id){p.online=false;emit(r)}});
 });
 app.get('/health',(_,res)=>res.json({ok:true,rooms:rooms.size}));
-const PORT=Number(process.env.PORT)||3000;server.listen(PORT,()=>console.log(`Ma Sói: http://localhost:${PORT}`));
+const PORT=Number(process.env.PORT)||3000;restoreRooms().then(()=>server.listen(PORT,()=>console.log(`Ma Sói: http://localhost:${PORT}`))).catch(e=>{console.error('Khởi động bị dừng để tránh ghi đè dữ liệu phòng:',e.message);process.exitCode=1});
