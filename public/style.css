@@ -438,3 +438,9 @@ body.in-game .village-screen>.game-tab-body .composer button{flex:0 0 auto!impor
  .app-room:has(.lobby-tabs) .lobby-content .player .kickbtn{min-height:18px!important;height:18px!important;max-height:18px!important}
  .app-room:has(.lobby-tabs) .lobby-content .player{gap:1px!important;padding:2px!important}
 }
+
+/* Battle console: no full-height decorative action frame during votes or trials. */
+body.in-game .village-screen>.game-tab-body{background:transparent!important;border:0!important;box-shadow:none!important}
+body.in-game .village-screen.village-decision>.game-tab-body:has(.lynch-panel){flex:0 1 auto!important;max-height:calc(100dvh - 380px)!important;overflow-y:auto!important}
+body.in-game .village-screen>.game-tab-body:empty{flex:0 0 0!important;height:0!important;min-height:0!important;padding:0!important;margin:0!important;overflow:hidden!important}
+body.in-game .village-screen>.game-tab-body>.lynch-panel{background:#fff0d1!important;border-radius:12px!important;margin:0!important;box-shadow:0 2px 9px #1a2c4830!important}
