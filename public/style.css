@@ -17,3 +17,7 @@
 .role-count-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
 .role-count{display:flex;align-items:center;gap:7px;min-width:0;padding:10px;background:#232d49;border:1px solid #495676;border-radius:11px;font-size:12px}
 .role-count span:first-child{font-size:23px}.role-count span:nth-child(2){flex:1;min-width:0}.role-count strong{font-size:16px;color:#f4ce83}
+
+/* Player testament */
+.will-panel textarea{display:block;width:100%;min-height:90px;resize:vertical;box-sizing:border-box;padding:12px;border:1px solid #65728e;border-radius:12px;background:#182239;color:#fff;font:inherit;margin:10px 0}
+.will-panel textarea:focus{outline:2px solid #d7b57b;outline-offset:1px}
