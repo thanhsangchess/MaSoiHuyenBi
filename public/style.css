@@ -292,3 +292,15 @@ body.in-game .village-screen>.game-tab-body .role-confirm{min-height:36px!import
 .village-grid .player.is-hypnotized:not(.dead){border:2px solid #bd8aff!important;box-shadow:inset 0 0 0 1px #dfcaff,0 0 7px #9d5ce088!important}
 .village-grid .player .hypnotized-mark{position:absolute;right:2px;bottom:2px;z-index:3;max-width:90%;font-size:8px;line-height:1.2;font-weight:800;white-space:nowrap;border-radius:5px;padding:1px 3px;background:#6d31a7;color:#fff;border:1px solid #e1b9ff;pointer-events:none}
 .village-grid .player.dead .hypnotized-mark{opacity:.75}
+
+/* Five character portraits in lobby and battle */
+.avatar-picker{padding:6px 8px;margin:3px 0;border:1px solid #c9ae72;border-radius:10px;background:rgba(255,238,184,.08)}
+.avatar-picker>strong{display:block;font-size:12px;margin-bottom:4px}
+.avatar-options{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.avatar-option{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;padding:3px 1px;border:1px solid #a78b65;border-radius:9px;background:rgba(255,255,255,.08);color:inherit;cursor:pointer}
+.avatar-option.active{border:2px solid #f6d56e;background:rgba(245,205,90,.2)}
+.avatar-option img{display:block;width:clamp(32px,7vw,54px);height:clamp(32px,7vw,54px);object-fit:contain;border-radius:50%}
+.avatar-option small{font-size:9px;line-height:1.15;white-space:nowrap}
+.character-portrait{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}
+.player .avatar{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.player .avatar:has(.character-portrait){background:transparent}
