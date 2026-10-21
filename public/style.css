@@ -304,3 +304,19 @@ body.in-game .village-screen>.game-tab-body .role-confirm{min-height:36px!import
 .character-portrait{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}
 .player .avatar{display:flex;align-items:center;justify-content:center;overflow:hidden}
 .player .avatar:has(.character-portrait){background:transparent}
+
+/* Compact illustrated battle board: keep target cards tappable and the action visible. */
+body.in-game .village-screen .village-grid .player.vote-target{cursor:pointer!important;touch-action:manipulation!important}
+body.in-game .village-screen .village-grid .player.vote-target.selected{border:2px solid #27e6a0!important;box-shadow:0 0 0 2px #1ddfa766,0 0 10px #39eac8aa!important;background:#c6f4e6!important}
+body.in-game .village-screen .village-grid .player .avatar{width:clamp(23px,4.8dvh,40px)!important;height:clamp(23px,4.8dvh,40px)!important;flex:0 0 auto!important;overflow:visible!important}
+body.in-game .village-screen .village-grid .player .character-portrait{width:100%!important;height:100%!important;object-fit:contain!important}
+body.in-game .village-screen .village-grid .player strong{max-width:98%!important;font-size:clamp(9px,1.5dvh,12px)!important;line-height:1.1!important}
+body.in-game .village-screen .village-grid .player small{font-size:9px!important;line-height:1!important}
+body.in-game .village-screen .village-grid .player .vote-prompt{font-size:9px!important;line-height:1!important;position:static!important}
+body.in-game .village-screen .village-grid .player .player-number{top:2px!important;left:2px!important;min-width:16px!important;height:16px!important;padding:0 2px!important;font-size:10px!important}
+body.in-game .village-screen .village-grid .player:focus-visible{outline:3px solid #fbd777!important;outline-offset:1px!important}
+body.in-game .village-screen>.village-chat{margin:0!important}
+body.in-game .village-screen.village-decision>.village-chat{display:none!important}
+body.in-game .village-screen>.game-tab-body .role-action-panel{overflow:hidden!important}
+body.in-game .village-screen>.game-tab-body .role-action-instruction{font-size:11px!important}
+body.in-game .village-screen>.game-tab-body .role-picked-area{min-height:0!important}
