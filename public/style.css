@@ -475,3 +475,7 @@ body.in-game .village-screen .village-grid .player.vote-target{min-height:0!impo
 body.in-game .village-screen .village-grid .player.vote-target .player-visible-name{background:rgba(9,27,55,.12)!important;border-radius:4px!important}
 body.in-game .village-screen .village-grid .player.vote-target.selected .player-visible-name{background:rgba(255,255,255,.35)!important}
 @media(max-height:730px){body.in-game .village-screen .village-grid .player .player-visible-name{font-size:clamp(10px,2.5vw,12px)!important;min-height:12px!important}body.in-game .village-screen .village-grid .player .avatar{width:clamp(27px,4.5dvh,37px)!important;height:clamp(27px,4.5dvh,37px)!important}}
+
+/* Clearly announce public nomination phase without covering player cards. */
+body.in-game .village-screen .village-vote-announcement{box-sizing:border-box!important;width:100%!important;margin:0 0 5px!important;padding:5px 7px!important;border:1px solid #e0ae45!important;border-radius:8px!important;background:#fff0c7!important;color:#75400b!important;text-align:center!important;font-size:clamp(10px,2.5vw,12px)!important;font-weight:850!important;line-height:1.25!important;white-space:normal!important}
+body.in-game .village-screen.village-night .village-vote-announcement{background:#42305a!important;color:#ffe4a2!important}
