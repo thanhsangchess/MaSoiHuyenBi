@@ -48,3 +48,18 @@ Cho điện thoại và máy tính cùng mạng Wi-Fi, tìm IP nội bộ của 
 - Chưa có tự động ghép trận, voice chat, thông báo đẩy hay công cụ quản trị.
 - Chưa triển khai đầy đủ mọi biến thể luật Ma Sói (ví dụ xử lý Thợ săn dây chuyền, các trường hợp thắng Cupid đặc biệt, và cứu người theo luật truyền thống).
 - Nên bổ sung kiểm thử nhiều máy, rate limit theo IP, chống spam, kiểm tra an toàn và lưu trữ bền vững trước khi mở công khai.
+
+
+## Triển khai lên Render
+
+Dự án cần **Node.js + WebSocket**; GitHub Pages không thể vận hành máy chủ game.
+
+1. Mở https://dashboard.render.com/ và đăng nhập.
+2. Chọn **New > Blueprint** và kết nối repository `thanhsangchess/MaSoiHuyenBi`.
+3. Chọn nhánh `main`. Render sẽ đọc `render.yaml` để tạo dịch vụ web.
+4. Chờ build và deploy hoàn tất; truy cập URL `https://...onrender.com/health` để kiểm tra. Phản hồi thành công có trường `ok: true`.
+5. Mở URL gốc trên hai điện thoại để kiểm tra tạo phòng, vào phòng, chat và kết nối lại.
+
+**Giới hạn:** Gói miễn phí có thể tạm ngừng khi không có truy cập, làm mất dữ liệu phòng lưu trong RAM. Nên dùng một instance duy nhất; nhiều instance đòi hỏi kho trạng thái và adapter Socket.IO chia sẻ. Chưa nên sử dụng cho các ván quan trọng trước khi hoàn thiện lưu trữ bền vững, chống lạm dụng và bảo mật phiên.
+
+**Lưu ý Git:** `.gitignore` không ngừng theo dõi các tệp `node_modules` đã commit. Trên máy có Git, chạy `git rm -r --cached node_modules`, sau đó commit và push để loại chúng khỏi nhánh hiện tại (không xóa thư viện trên máy).
