@@ -6,9 +6,9 @@ import { randomBytes, randomUUID } from 'node:crypto';
 const app=express();const server=http.createServer(app);const io=new Server(server,{pingTimeout:20000,cors:{origin:false}});
 app.use(express.static('public'));
 const rooms=new Map();
-const ROLES={wolf:'Ma Sói',villager:'Dân làng',seer:'Tiên tri',witch:'Phù thủy',guard:'Bảo vệ',hunter:'Thợ săn',cupid:'Cupid'};
+const ROLES={wolf:'Ma Sói',villager:'Dân làng',seer:'Tiên tri',witch:'Phù thủy',guard:'Bảo vệ',hunter:'Thợ săn',cupid:'Cupid',fool:'Thằng ngố'};
 const SPECIAL=['seer','witch','guard','hunter','cupid'];
-const NIGHT_ORDER=['cupid','guard','seer','wolf','witch'];
+const NIGHT_ORDER=['cupid','guard','wolf','seer','hunter','witch'];
 const DEFAULT={discussion:100,vote:45,night:35};
 const code=()=>randomBytes(3).toString('hex').toUpperCase();
 const clean=(s,n=30)=>String(s??'').trim().slice(0,n).replace(/[<>]/g,'');
@@ -16,7 +16,7 @@ const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.r
 const living=r=>r.players.filter(p=>p.alive);
 const find=(r,id)=>r.players.find(p=>p.id===id);
 const isWolf=p=>p?.role==='wolf';
-const roleComposition=n=>{const wolves=n>=9?2:1;const specialSlots=Math.max(0,n-wolves-2);const priority=['seer','witch','cupid','guard','hunter'];const specials=priority.slice(0,specialSlots);return {wolf:wolves,villager:n-wolves-specials.length,...Object.fromEntries(priority.map(k=>[k,specials.includes(k)?1:0]))};};
+const roleComposition=n=>{const wolves=n>=9?2:1;const specialSlots=Math.max(0,n-wolves-2);const priority=['seer','witch','cupid','guard','hunter','fool'];const specials=priority.slice(0,Math.max(0,specialSlots));return {wolf:wolves,villager:n-wolves-specials.length,...Object.fromEntries(priority.map(k=>[k,specials.includes(k)?1:0]))};};
 const byCount=r=>{const counts=roleComposition(r.players.length);return shuffle(Object.entries(counts).flatMap(([role,count])=>Array(count).fill(role)));};
 function system(r,message){r.messages.push({id:randomUUID(),type:'system',message,time:Date.now()});r.messages=r.messages.slice(-100)}
 function roomPublic(r){return {code:r.code,name:r.name,phase:r.phase,day:r.day,deadline:r.deadline,host:r.host,settings:r.settings,roleCounts:roleComposition(r.players.length),players:r.players.map(p=>({id:p.id,name:p.name,alive:p.alive,online:p.online,ready:p.ready})),messages:r.messages.filter(m=>m.type==='system'||m.scope==='all'),votes:r.phase==='vote'?Object.keys(r.votes).length:0};}
@@ -29,18 +29,18 @@ function emit(r){io.to(r.code).emit('room:public',roomPublic(r));for(const p of 
 function targets(r,p){const alive=living(r);let xs=[];switch(p.role){case 'wolf':xs=alive.filter(x=>x.role!=='wolf');break;case 'seer':xs=alive.filter(x=>x.id!==p.id);break;case 'guard':xs=alive.filter(x=>x.id!==r.lastGuard);break;case 'witch':xs=alive.filter(x=>x.id!==p.id);break;case 'cupid':xs=alive.filter(x=>x.id!==p.id);break;default:xs=[];}return xs.map(x=>({id:x.id,name:x.name}));}
 function clear(r){if(r.timer)clearTimeout(r.timer);r.timer=null;}
 function schedule(r,secs,fn){clear(r);r.deadline=Date.now()+secs*1000;r.timer=setTimeout(()=>{r.timer=null;fn(r)},secs*1000);emit(r)}
-function finish(r,side){clear(r);r.phase='ended';r.winner=side;r.deadline=null;system(r,`Ván kết thúc! ${side==='village'?'Phe Làng':side==='wolf'?'Phe Sói':'Đôi tình nhân'} chiến thắng.`);emit(r)}
-function winner(r){let a=living(r),w=a.filter(isWolf),v=a.filter(p=>!isWolf(p));if(a.length===2&&a.every(p=>p.lover===a.find(x=>x.id!==p.id)?.id))return 'lovers';if(w.length===0)return 'village';if(w.length>=v.length)return 'wolf';return null}
+function finish(r,side){clear(r);r.phase='ended';r.winner=side;r.deadline=null;system(r,`Ván kết thúc! ${side==='village'?'Phe Làng':side==='wolf'?'Phe Sói':side==='fool'?'Thằng ngố':'Đôi tình nhân'} chiến thắng.`);emit(r)}
+function winner(r){let a=living(r),w=a.filter(isWolf),v=a.filter(p=>p.role!=='wolf'&&p.role!=='fool');if(a.length===2&&a.every(p=>p.lover===a.find(x=>x.id!==p.id)?.id))return 'lovers';if(w.length===0)return 'village';if(w.length>=a.length-w.length)return 'wolf';return null}
 function check(r){const w=winner(r);if(w){finish(r,w);return true}return false}
 function eliminate(r,ids,reason){let out=[];const kill=(id)=>{let p=find(r,id);if(!p||!p.alive)return;p.alive=false;out.push(p);if(p.lover)kill(p.lover)};for(let id of ids)kill(id);if(out.length)system(r,`${reason}: ${out.map(p=>p.name).join(', ')}.`);return out}
 function afterDeaths(r,out){const hunter=out.find(p=>p.role==='hunter');if(hunter&&living(r).length){r.phase='hunter';r.hunterId=hunter.id;system(r,'Thợ săn có quyền chọn một người trước khi rời làng.');schedule(r,20,()=>nextAfterDeaths(r));return}nextAfterDeaths(r)}
 function nextAfterDeaths(r){r.hunterId=null;if(check(r))return;if(r.afterHunter==='night'){r.afterHunter=null;nextNight(r)}else startDiscussion(r)}
 function startDiscussion(r){r.phase='discussion';r.nightRole=null;r.actions={};system(r,`Ngày ${r.day}: Bắt đầu thảo luận.`);schedule(r,r.settings.discussion,()=>startVote(r))}
 function startVote(r){r.phase='vote';r.votes={};system(r,'Đã đến giờ bỏ phiếu.');schedule(r,r.settings.vote,resolveVote)}
-function resolveVote(r){let counts={};for(let id of Object.values(r.votes)){if(find(r,id)?.alive)counts[id]=(counts[id]||0)+1}let max=Math.max(0,...Object.values(counts));let top=Object.keys(counts).filter(k=>counts[k]===max);let target=max>0&&top.length===1?top[0]:null;system(r,target?`Kết quả: ${find(r,target).name} nhận ${max} phiếu.`:'Không ai bị loại do hòa phiếu hoặc không có phiếu hợp lệ.');let out=target?eliminate(r,[target],'Bỏ phiếu loại'):[];if(out.length)afterDeathsVote(r,out);else nextNight(r)}
+function resolveVote(r){let counts={};for(let id of Object.values(r.votes)){if(find(r,id)?.alive)counts[id]=(counts[id]||0)+1}let max=Math.max(0,...Object.values(counts));let top=Object.keys(counts).filter(k=>counts[k]===max);let target=max>0&&top.length===1?top[0]:null;system(r,target?`Kết quả: ${find(r,target).name} nhận ${max} phiếu.`:'Không ai bị loại do hòa phiếu hoặc không có phiếu hợp lệ.');if(target&&find(r,target)?.role==='fool'){finish(r,'fool');return}let out=target?eliminate(r,[target],'Bỏ phiếu loại'):[];if(out.length)afterDeathsVote(r,out);else nextNight(r)}
 function afterDeathsVote(r,out){const hunter=out.find(p=>p.role==='hunter');if(hunter&&living(r).length){r.phase='hunter';r.hunterId=hunter.id;r.afterHunter='night';schedule(r,20,()=>nextAfterDeaths(r));return}if(!check(r))nextNight(r)}
 function nextNight(r){r.day++;r.phase='night';r.actions={};r.nightRole=null;r.nightIndex=-1;r.nightData={guard:null,wolf:null,poison:null,heal:false};system(r,`Đêm ${r.day} buông xuống.`);advanceNight(r)}
-function advanceNight(r){r.actions={};r.nightIndex++;if(r.nightIndex>=NIGHT_ORDER.length){resolveNight(r);return}let role=NIGHT_ORDER[r.nightIndex];if(role==='cupid'&&r.day>1){advanceNight(r);return}if(!living(r).some(p=>p.role===role)){advanceNight(r);return}r.nightRole=role;system(r,`Đêm ${r.day}: Một vai trò đang thực hiện nhiệm vụ.`);schedule(r,r.settings.night,resolveNightRole)}
+function advanceNight(r){r.actions={};r.nightIndex++;if(r.nightIndex>=NIGHT_ORDER.length){resolveNight(r);return}let role=NIGHT_ORDER[r.nightIndex];if(role==='cupid'&&r.day>1||role==='hunter'){advanceNight(r);return}if(!living(r).some(p=>p.role===role)){advanceNight(r);return}r.nightRole=role;system(r,`Đêm ${r.day}: Một vai trò đang thực hiện nhiệm vụ.`);schedule(r,r.settings.night,resolveNightRole)}
 function resolveNightRole(r){let role=r.nightRole;let acts=Object.values(r.actions).filter(a=>a.kind===role);if(role==='cupid'){let a=acts[0];if(a?.targets?.length===2){let [x,y]=a.targets.map(id=>find(r,id));if(x&&y&&x.id!==y.id){x.lover=y.id;y.lover=x.id;x.privateInfo=`Bạn được Cupid ghép đôi với ${y.name}.`;y.privateInfo=`Bạn được Cupid ghép đôi với ${x.name}.`;}}}
  if(role==='guard'){let a=acts[0];r.nightData.guard=a?.target||null;if(a?.target)r.lastGuard=a.target;}
  if(role==='seer'){for(let a of acts){let p=find(r,a.player),t=find(r,a.target);if(p&&t)p.privateInfo=`Tiên tri đã soi ${t.name}: ${isWolf(t)?'Phe Sói':'Không phải Ma Sói'}.`;}}
