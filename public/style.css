@@ -55,3 +55,11 @@
 .home-features{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
 .home-features span{font-size:11px;padding:7px 9px;border-radius:999px;background:#302e58;color:#e4dcff}
 @media(max-width:370px){.home-page .top h1{font-size:17px}.home-page .top .badge{font-size:10px}.home-hero{min-height:280px}.home-shortcuts button{padding:12px}.home-shortcuts strong{font-size:16px}}
+
+/* Numbered player cards and one-tap voting */
+.player-number{position:absolute;top:6px;left:7px;display:grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border-radius:8px;background:#111a36;border:1px solid #7884b0;color:#ffe3a2;font-size:12px;font-weight:850;line-height:1;z-index:1}
+.player.vote-target{appearance:none;font:inherit;color:inherit;width:100%;cursor:pointer;border:2px solid #bd9aeb;background:linear-gradient(160deg,#37305b,#212c4d);box-shadow:0 4px 14px #0004;min-height:132px}
+.player.vote-target:active{transform:scale(.98);background:#514078}
+.player.vote-target:focus-visible{outline:3px solid #ffda8c;outline-offset:2px}
+.player.vote-target .vote-prompt{font-size:10px;font-weight:800;color:#ffdc95;margin-top:2px}
+.player.vote-target:disabled{opacity:.65;cursor:wait}
