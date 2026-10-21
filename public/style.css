@@ -304,3 +304,22 @@ body.in-game .village-screen>.game-tab-body .role-confirm{min-height:36px!import
 .character-portrait{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}
 .player .avatar{display:flex;align-items:center;justify-content:center;overflow:hidden}
 .player .avatar:has(.character-portrait){background:transparent}
+
+/* Ocean-blue identity for menus and lobby; battle day/night remains untouched. */
+body:not(.in-game){--bg:#071a38;--panel:#102e59;--panel2:#1b4476;--line:#3266a0;--gold:#cdeaff;--purple:#3b91ed;--text:#f4faff;--muted:#b9d2ed;background:radial-gradient(ellipse at 50% 0%,#2365b5 0%,transparent 55%),linear-gradient(160deg,#123f7b,#071c3c 80%)!important}
+body:not(.in-game) .top h1,body:not(.in-game) .heading h2,body:not(.in-game) .panel h3,body:not(.in-game) .phase h2{color:#d7eeff}
+body:not(.in-game) .hero{border-color:#5098d6;background:radial-gradient(circle at 50% 23%,#c4ecff 0 11%,#5498d6 12% 16%,transparent 17%),linear-gradient(180deg,#1b65a8,#103e78 65%,#08264e);box-shadow:inset 0 0 60px #092b55}
+body:not(.in-game) .hero h2{color:#e1f5ff}
+body:not(.in-game) .panel{background:linear-gradient(145deg,#174577,#0c2b54);border-color:#3773b1}
+body:not(.in-game) .phase{background:linear-gradient(140deg,#1c5594,#0c315f);border-color:#4b92d0}
+body:not(.in-game) .btn:not(.gold):not(.red):not(.ghost){background:linear-gradient(180deg,#369ef3,#1762bc);border-color:#69bafa}
+body:not(.in-game) .btn.ghost,body:not(.in-game) .iconbtn{background:#183e71;border-color:#4c86bd}
+body:not(.in-game) input,body:not(.in-game) select{background:#0a2b52;border-color:#477bac;color:#f5fbff}
+body:not(.in-game) input:focus,body:not(.in-game) select:focus{border-color:#76c5ff;box-shadow:0 0 0 3px #4db4ff33}
+body:not(.in-game) .badge{background:#20598f;color:#e2f4ff}
+body:not(.in-game) .player{background:#164373;border-color:#4781ba}
+body:not(.in-game) .player.me{background:#205e9c;border-color:#92cfff}
+body:not(.in-game) .avatar{background:linear-gradient(135deg,#2b81c5,#23589c);border-color:#6db5e9}
+body:not(.in-game) .avatar-picker{background:#174577;border-color:#4b92d0}
+body:not(.in-game) .avatar-option{background:#113966;border-color:#4884bd}
+body:not(.in-game) .avatar-option.active{background:#246eaf;border-color:#9cdbff}
