@@ -517,3 +517,14 @@ body.in-game .village-screen .love-floating .love-message{color:#242238!importan
 body.in-game .village-screen .love-floating .composer{display:flex!important;gap:5px!important;flex:0 0 auto!important}
 body.in-game .village-screen .love-floating .composer input{min-width:0!important;flex:1 1 auto!important;background:#fff!important;color:#1d2434!important}
 body.in-game .village-screen .love-floating .composer button{flex:0 0 auto!important}
+
+/* High-contrast Cupid mini chat: readable dark text on light message bubbles. */
+body.in-game .village-screen .love-floating .love-panel{background:#fff8fc!important;color:#1e2635!important}
+body.in-game .village-screen .love-floating .love-log{background:#fff!important;color:#182536!important}
+body.in-game .village-screen .love-floating .love-message{background:#edf2fa!important;color:#15253b!important;border:1px solid #c8d5e5!important;padding:8px 10px!important;line-height:1.45!important}
+body.in-game .village-screen .love-floating .love-message.mine{background:#fbe0ef!important;color:#382038!important;border-color:#e7aacb!important}
+body.in-game .village-screen .love-floating .love-message small{color:#38547a!important;font-weight:800!important;opacity:1!important}
+body.in-game .village-screen .love-floating .love-message.mine small{color:#8b2b62!important}
+body.in-game .village-screen .love-floating .love-message div{color:inherit!important;opacity:1!important}
+body.in-game .village-screen .love-floating .love-panel .muted,body.in-game .village-screen .love-floating .love-panel .hint{color:#485469!important;opacity:1!important}
+body.in-game .village-screen .love-floating .composer input::placeholder{color:#64748b!important}
