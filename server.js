@@ -35,7 +35,7 @@ function view(r,p){const v=roomPublic(r);v.self={id:p.id,role:p.role,alive:p.ali
  if(r.phase==='lynch'&&p.alive&&p.id!==r.lynchTarget)v.action={kind:'lynch',submitted:!!r.lynchVotes[p.id]};
  if(r.phase==='vote'&&p.alive)v.action={kind:'vote',targets:living(r).filter(x=>x.id!==p.id).map(x=>({id:x.id,name:x.name})),submitted:!!r.votes[p.id]};
  if(r.phase==='ended')v.reveal=r.players.map(x=>({id:x.id,name:x.name,role:x.role}));return v;}
-function emit(r){io.to(r.code).emit('room:public',roomPublic(r));for(const p of r.players){if(p.socketId)io.to(p.socketId).emit('room:state',view(r,p));}}
+function emit(r){io.emit('room:list-updated');io.to(r.code).emit('room:public',roomPublic(r));for(const p of r.players){if(p.socketId)io.to(p.socketId).emit('room:state',view(r,p));}}
 function targets(r,p){const alive=living(r);let xs=[];switch(p.role){case 'wolf':xs=alive;break;case 'seer':xs=alive.filter(x=>x.id!==p.id);break;case 'hunter':xs=alive.filter(x=>x.id!==p.id);break;case 'guard':xs=alive.filter(x=>x.id!==r.lastGuard);break;case 'witch':xs=alive.filter(x=>x.id!==p.id);break;case 'cupid':xs=alive.filter(x=>x.id!==p.id);break;case 'hypnotist':xs=alive.filter(x=>x.id!==p.id&&!x.hypnotized);break;default:xs=[];}return xs.map(x=>({id:x.id,name:x.name}));}
 function clear(r){if(r.timer)clearTimeout(r.timer);r.timer=null;}
 function schedule(r,secs,fn){clear(r);r.deadline=Date.now()+secs*1000;r.timer=setTimeout(()=>{r.timer=null;fn(r)},secs*1000);emit(r)}
@@ -68,7 +68,7 @@ function startGame(r){r.afterHunter=null;let roles=byCount(r);r.players.forEach(
 function ack(cb,obj){if(typeof cb==='function')cb(obj)}
 function error(cb,msg){ack(cb,{ok:false,error:msg})}
 function authenticate(socket,cb){const r=rooms.get(socket.data.code);const p=r&&find(r,socket.data.playerId);if(!r||!p||p.socketId!==socket.id){error(cb,'Phiên kết nối không hợp lệ.');return null}return {r,p}}
-function cleanup(r){if(!r.players.length){clear(r);rooms.delete(r.code)}else{if(!find(r,r.host))r.host=r.players[0].id;emit(r)}}
+function cleanup(r){if(!r.players.length){clear(r);rooms.delete(r.code);io.emit('room:list-updated')}else{if(!find(r,r.host))r.host=r.players[0].id;emit(r)}}
 io.on('connection',socket=>{
  socket.on('room:list',cb=>ack(cb,{ok:true,rooms:[...rooms.values()].filter(r=>r.phase==='lobby'&&!r.private).map(r=>({code:r.code,name:r.name,count:r.players.length,max:r.settings.max}))}));
  socket.on('room:create',(data={},cb)=>{let name=clean(data.name,24)||'Ngôi Làng Bí Ẩn';let playerName=clean(data.playerName,18)||'Khách';let id=randomUUID();let r={code:code(),name,private:!!data.private,host:id,phase:'lobby',day:0,deadline:null,players:[],messages:[],timer:null,settings:{max:12,discussion:Math.min(240,Math.max(30,Number(data.discussion)||DEFAULT.discussion)),vote:DEFAULT.vote,night:DEFAULT.night,specials:SPECIAL},votes:{},actions:{}};while(rooms.has(r.code))r.code=code();let p={id,name:playerName,socketId:socket.id,online:true,ready:false,alive:true,role:null};r.players.push(p);rooms.set(r.code,r);socket.join(r.code);socket.data={code:r.code,playerId:id};ack(cb,{ok:true,code:r.code,playerId:id});emit(r)});
