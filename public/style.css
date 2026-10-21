@@ -490,3 +490,9 @@ body.in-game .village-screen .game-tab-body .chat .message.system{color:#425c77!
 body.in-game .village-screen .game-tab-body .composer input{background:#fff!important;color:#162738!important;border:1px solid #9fb9d1!important}
 body.in-game .village-screen .game-tab-body .composer input::placeholder{color:#6b7f94!important}
 body.in-game .village-screen .game-tab-body .composer button{background:#207cc6!important;color:#fff!important;border-color:#1769ad!important}
+
+/* Private seer feedback stays readable after the 15-second night turn ends. */
+body.in-game .village-screen>.seer-result-notice{box-sizing:border-box!important;flex:0 0 auto!important;display:flex!important;flex-direction:column!important;gap:3px!important;width:100%!important;margin:0!important;padding:6px 9px!important;border:1px solid #a985ed!important;border-radius:9px!important;background:#f2eaff!important;color:#2e2150!important;font-size:clamp(11px,2.7vw,13px)!important;line-height:1.3!important;max-height:90px!important;overflow-y:auto!important}
+body.in-game .village-screen>.seer-result-notice strong{color:#5e2e9c!important;font-size:12px!important}
+body.in-game .village-screen.village-night>.seer-result-notice{background:#2c2449!important;color:#fff!important;border-color:#b39afa!important}
+body.in-game .village-screen.village-night>.seer-result-notice strong{color:#e2c7ff!important}
