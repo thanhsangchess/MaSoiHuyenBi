@@ -7,7 +7,7 @@ const app=express();const server=http.createServer(app);const io=new Server(serv
 app.use(express.static('public'));
 const rooms=new Map();
 // Durable snapshots require Upstash Redis REST credentials in Render environment.
-const redisUrl=(process.env.UPSTASH_REDIS_REST_URL||'').replace(/\\/$/,'');
+const redisUrl=(process.env.UPSTASH_REDIS_REST_URL||'').replace(/\/$/,'');
 const redisToken=process.env.UPSTASH_REDIS_REST_TOKEN||'';
 const persistenceEnabled=!!(redisUrl&&redisToken);
 const persistenceKey='ma-soi-huyen-bi:rooms:v1';
