@@ -479,3 +479,14 @@ body.in-game .village-screen .village-grid .player.vote-target.selected .player-
 /* Clearly announce public nomination phase without covering player cards. */
 body.in-game .village-screen .village-vote-announcement{box-sizing:border-box!important;width:100%!important;margin:0 0 5px!important;padding:5px 7px!important;border:1px solid #e0ae45!important;border-radius:8px!important;background:#fff0c7!important;color:#75400b!important;text-align:center!important;font-size:clamp(10px,2.5vw,12px)!important;font-weight:850!important;line-height:1.25!important;white-space:normal!important}
 body.in-game .village-screen.village-night .village-vote-announcement{background:#42305a!important;color:#ffe4a2!important}
+
+/* Accessible light chat: white messages, dark text, scrollable history. */
+body.in-game .village-screen .game-tab-body>.panel:has(.chat){background:#f7fbff!important;border:1px solid #b7cfe5!important;color:#17283e!important}
+body.in-game .village-screen .game-tab-body>.panel:has(.chat)>h3{color:#183650!important}
+body.in-game .village-screen .game-tab-body .chat{background:#fff!important;color:#17283e!important;border:1px solid #b5c9dc!important;border-radius:10px!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;scrollbar-color:#93aec8 #edf4fa!important}
+body.in-game .village-screen .game-tab-body .chat .message{color:#182838!important;background:#fff!important;font-style:normal!important;font-size:13px!important;line-height:1.45!important;overflow-wrap:anywhere!important}
+body.in-game .village-screen .game-tab-body .chat .message strong{color:#124b82!important;font-weight:850!important}
+body.in-game .village-screen .game-tab-body .chat .message.system{color:#425c77!important;background:#eef5fc!important;padding:3px 6px!important;border-radius:5px!important;font-style:italic!important}
+body.in-game .village-screen .game-tab-body .composer input{background:#fff!important;color:#162738!important;border:1px solid #9fb9d1!important}
+body.in-game .village-screen .game-tab-body .composer input::placeholder{color:#6b7f94!important}
+body.in-game .village-screen .game-tab-body .composer button{background:#207cc6!important;color:#fff!important;border-color:#1769ad!important}
