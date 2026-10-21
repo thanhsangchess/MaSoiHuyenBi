@@ -75,3 +75,41 @@
 .lynch-panel{border-color:#c2a074;background:linear-gradient(150deg,#322b43,#171d34)}
 .lynch-panel .cols{margin:12px 0}
 .lynch-stat{padding:10px 5px;border:1px solid #62587a;border-radius:11px;text-align:center;font-size:13px;font-weight:800;background:#202640}
+
+/* One-screen mobile game. Only the tab content and chat history scroll. */
+body.in-game{height:100dvh;overflow:hidden}
+body.in-game .app{height:100dvh;min-height:0;max-width:640px;padding:env(safe-area-inset-top) 9px env(safe-area-inset-bottom);overflow:hidden}
+.game-screen{height:100%;min-height:0;display:flex;flex-direction:column;gap:5px;overflow:hidden}
+.game-screen>.top{flex:0 0 auto;padding:4px 2px}
+.game-screen>.top h1{font-size:15px}
+.game-screen>.top small{font-size:10px}
+.game-screen>.top .badge{font-size:10px;padding:4px 6px}
+.game-screen>.phase{flex:0 0 auto;margin:0;padding:6px 9px;border-radius:12px}
+.game-screen>.phase h2{font-size:16px;margin:2px 0}
+.game-screen>.phase .clock{font-size:22px;margin:0}
+.game-screen>.phase small{font-size:10px}
+.game-screen>.panel{flex:0 0 auto;min-height:0;margin:0;padding:7px;border-radius:12px}
+.game-screen>.panel .heading h3{font-size:13px;margin:0}
+.game-screen>.panel .hint{font-size:10px;margin:3px 0}
+.game-screen .gridplayers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.game-screen .gridplayers .player{padding:4px 2px;gap:2px;border-radius:9px;min-height:0}
+.game-screen .gridplayers .player.vote-target{min-height:0}
+.game-screen .gridplayers .avatar{width:27px;height:27px;font-size:18px}
+.game-screen .gridplayers .player strong{font-size:10px}
+.game-screen .gridplayers .player small{font-size:9px}
+.game-screen .gridplayers .player-number{min-width:16px;height:16px;top:2px;left:2px;border-radius:5px;font-size:9px;padding:0 3px}
+.game-screen .gridplayers .vote-prompt{font-size:9px}
+.game-screen .gridplayers .vote-numbers{font-size:9px;padding:1px 2px;top:1px;right:1px}
+.game-screen .gridplayers .lynch-mark{font-size:14px;top:18px;right:2px}
+.game-screen .gridplayers .accused-mark{font-size:8px;padding:1px 3px}
+.game-tabs{flex:0 0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.game-tabs button{min-width:0;padding:8px 2px;border-radius:9px;border:1px solid #49577b;background:#1d2846;color:#d7d5ec;font-size:11px;font-weight:700}
+.game-tabs button.active{background:#67509f;border-color:#e4c486;color:#fff}
+.game-tab-body{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:0 2px 5px}
+.game-tab-body>.panel,.game-tab-body>.cardrole{margin:5px 0;padding:10px;border-radius:12px}
+.game-tab-body>.panel h3{font-size:15px;margin-bottom:6px}
+.game-tab-body .chat{height:auto;max-height:none;min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain}
+.game-tab-body>.panel:has(.chat){height:100%;min-height:0;display:flex;flex-direction:column}
+.game-tab-body .composer{flex:0 0 auto}
+@media(max-height:700px){.game-screen>.phase{padding:3px 7px}.game-screen>.phase h2{font-size:14px}.game-screen>.phase .clock{font-size:18px}.game-screen .gridplayers .avatar{width:23px;height:23px;font-size:15px}.game-screen .gridplayers .player{padding:2px 1px}.game-tabs button{padding:5px 2px}}
+@media(min-width:540px){.game-screen .gridplayers{grid-template-columns:repeat(6,minmax(0,1fr))}}
