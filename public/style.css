@@ -21,3 +21,37 @@
 /* Player testament */
 .will-panel textarea{display:block;width:100%;min-height:90px;resize:vertical;box-sizing:border-box;padding:12px;border:1px solid #65728e;border-radius:12px;background:#182239;color:#fff;font:inherit;margin:10px 0}
 .will-panel textarea:focus{outline:2px solid #d7b57b;outline-offset:1px}
+
+/* Refined mobile-first home screen */
+.home-page{display:grid;gap:16px}
+.home-page .top{padding:13px 0 3px;align-items:center}
+.home-page .top h1{font-size:clamp(17px,5vw,22px);letter-spacing:.015em}
+.home-page .top .badge{flex:none;font-size:11px;padding:7px 9px}
+.home-hero{position:relative;isolation:isolate;overflow:hidden;min-height:300px;padding:30px 16px 28px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;border-radius:25px;border:1px solid #7160a5;background:radial-gradient(circle at 50% 28%,#5e5c99 0,#302e60 25%,#161b38 57%,#10172c 100%);box-shadow:inset 0 0 60px #0a0c24,0 12px 30px #0003}
+.home-stars{position:absolute;top:15px;left:20px;right:20px;color:#e4d8ff8c;font-size:18px;letter-spacing:35px;pointer-events:none}
+.home-moon{position:absolute;top:23px;font-size:112px;opacity:.46;filter:drop-shadow(0 0 30px #d8d6ff);line-height:1}
+.home-wolf{position:relative;font-size:78px;line-height:1;margin:22px 0 18px;filter:drop-shadow(0 7px 20px #090b25)}
+.home-eyebrow{position:relative;letter-spacing:2.1px;font-size:10px;font-weight:750;color:#d4c6ef;margin-bottom:10px}
+.home-hero h2{position:relative;font-family:Georgia,serif;color:#ffe0a0;font-size:clamp(32px,8vw,45px);line-height:1.08;margin:0;text-shadow:0 4px 18px #0009}
+.home-hero h2 span{display:block}
+.home-hero p{position:relative;color:#d2d0e9;font-size:13px;margin:13px 0 6px}
+.home-silhouette{position:absolute;bottom:-21px;left:0;right:0;font-size:64px;letter-spacing:13px;white-space:nowrap;color:#9f9fc0;opacity:.16;pointer-events:none}
+.home-menu{display:grid;gap:12px}
+.home-menu button{width:100%;border-radius:18px;touch-action:manipulation}
+.home-primary{display:flex;align-items:center;text-align:left;gap:13px;min-height:80px;padding:13px 18px;border:1px solid #ffe6ae;background:linear-gradient(145deg,#ffe6ad,#edb855);color:#3c290f;box-shadow:0 8px 22px #05081770}
+.home-primary>span:first-child{font-size:30px}
+.home-primary strong,.home-shortcuts strong{display:block;font-size:18px}
+.home-primary small,.home-shortcuts small{display:block;font-size:11px;font-weight:500;margin-top:4px}
+.home-primary .home-arrow{margin-left:auto;font-size:25px}
+.home-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.home-shortcuts button{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;min-height:106px;padding:15px;background:linear-gradient(150deg,#55429e,#332b68);border:1px solid #8876c6;color:#fff;text-align:left}
+.home-shortcut-icon{font-size:24px;color:#ffdb99;margin-bottom:5px}
+.home-shortcuts small{color:#d5cdec;line-height:1.4}
+.home-info{border:1px solid #394669;background:linear-gradient(145deg,#1c2544,#111a32);border-radius:19px;padding:16px}
+.home-info-heading{display:flex;gap:12px;align-items:flex-start}
+.home-info-heading>span{font-size:26px}
+.home-info h3{font-family:Georgia,serif;color:#f4ce83;font-size:19px;line-height:1.2;margin:2px 0 7px}
+.home-info p{font-size:13px;line-height:1.55;color:#bbc2dc;margin:0}
+.home-features{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.home-features span{font-size:11px;padding:7px 9px;border-radius:999px;background:#302e58;color:#e4dcff}
+@media(max-width:370px){.home-page .top h1{font-size:17px}.home-page .top .badge{font-size:10px}.home-hero{min-height:280px}.home-shortcuts button{padding:12px}.home-shortcuts strong{font-size:16px}}
