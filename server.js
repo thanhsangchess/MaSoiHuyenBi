@@ -36,7 +36,7 @@ function view(r,p){const v=roomPublic(r);v.self={id:p.id,role:p.role,alive:p.ali
  if(r.phase==='vote'&&p.alive)v.action={kind:'vote',targets:living(r).filter(x=>x.id!==p.id).map(x=>({id:x.id,name:x.name})),submitted:!!r.votes[p.id]};
  if(r.phase==='ended')v.reveal=r.players.map(x=>({id:x.id,name:x.name,role:x.role}));return v;}
 function emit(r){io.emit('room:list-updated');io.to(r.code).emit('room:public',roomPublic(r));for(const p of r.players){if(p.socketId)io.to(p.socketId).emit('room:state',view(r,p));}}
-function targets(r,p){const alive=living(r);let xs=[];switch(p.role){case 'wolf':xs=alive;break;case 'seer':xs=alive.filter(x=>x.id!==p.id);break;case 'hunter':xs=alive.filter(x=>x.id!==p.id);break;case 'guard':xs=alive.filter(x=>x.id!==r.lastGuard);break;case 'witch':xs=alive.filter(x=>x.id!==p.id);break;case 'cupid':xs=alive;break;case 'hypnotist':xs=alive.filter(x=>x.id===p.id||!x.hypnotized);break;default:xs=[];}return xs.map(x=>({id:x.id,name:x.name}));}
+function targets(r,p){const alive=living(r);let xs=[];switch(p.role){case 'wolf':xs=alive;break;case 'seer':xs=alive.filter(x=>x.id!==p.id);break;case 'hunter':xs=alive.filter(x=>x.id!==p.id);break;case 'guard':xs=alive.filter(x=>x.id!==r.lastGuard);break;case 'witch':xs=alive.filter(x=>x.id!==p.id);break;case 'cupid':xs=alive;break;case 'hypnotist':xs=alive.filter(x=>x.id!==p.id&&!x.hypnotized);break;default:xs=[];}return xs.map(x=>({id:x.id,name:x.name}));}
 function clear(r){if(r.timer)clearTimeout(r.timer);r.timer=null;}
 function schedule(r,secs,fn){clear(r);r.deadline=Date.now()+secs*1000;r.timer=setTimeout(()=>{r.timer=null;fn(r)},secs*1000);emit(r)}
 function finish(r,side){clear(r);r.phase='ended';r.winner=side;r.deadline=null;system(r,`Ván kết thúc! ${side==='village'?'Phe Làng':side==='wolf'?'Phe Sói':side==='fool'?'Thằng ngố':side==='hypnotist'?'Thôi miên':'Đôi tình nhân'} chiến thắng.`);emit(r)}
@@ -59,7 +59,7 @@ function resolveNightRole(r){let role=r.nightRole;let acts=Object.values(r.actio
  if(role==='guard'){let a=acts[0];r.nightData.guard=a?.target||null;if(a?.target)r.lastGuard=a.target;}
  if(role==='seer'){for(let a of acts){let p=find(r,a.player),t=find(r,a.target);if(p&&t)p.privateInfo=`Tiên tri đã soi ${t.name}: ${isWolf(t)?'Phe Sói':'Không phải Ma Sói'}.`;}}
  if(role==='wolf'){let count={};for(let a of acts){if(find(r,a.target)?.alive)count[a.target]=(count[a.target]||0)+1}let max=Math.max(0,...Object.values(count));let top=Object.keys(count).filter(id=>count[id]===max);r.nightData.wolf=max&&top.length?([...acts].reverse().find(a=>top.includes(a.target))?.target||null):null;}
- if(role==='hypnotist'){for(const a of acts){const p=find(r,a.player),t=find(r,a.target);if(p?.alive&&t?.alive){if(t.id===p.id){p.privateInfo='Bạn đã chọn chính mình để đánh lạc hướng. Không ai bị thôi miên trong lượt này.';}else if(!t.hypnotized){t.hypnotized=true;p.privateInfo=`Đã thôi miên ${t.name}.`;}}}}
+ if(role==='hypnotist'){for(const a of acts){const p=find(r,a.player),t=find(r,a.target);if(p?.alive&&t?.alive&&t.id!==p.id&&!t.hypnotized){t.hypnotized=true;p.privateInfo=`Đã thôi miên ${t.name}.`;}}}
  if(role==='hypnotist'&&check(r))return;
  if(role==='witch'){for(let a of acts){let p=find(r,a.player);if(!p)continue;if(a.choice==='heal'&&p.witchHeal&&r.nightData.wolf){r.nightData.heal=true;p.witchHeal=false}if(a.choice==='poison'&&p.witchPoison&&find(r,a.target)?.alive){r.nightData.poison=a.target;p.witchPoison=false}}}
  advanceNight(r)}
