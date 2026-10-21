@@ -496,3 +496,24 @@ body.in-game .village-screen>.seer-result-notice{box-sizing:border-box!important
 body.in-game .village-screen>.seer-result-notice strong{color:#5e2e9c!important;font-size:12px!important}
 body.in-game .village-screen.village-night>.seer-result-notice{background:#2c2449!important;color:#fff!important;border-color:#b39afa!important}
 body.in-game .village-screen.village-night>.seer-result-notice strong{color:#e2c7ff!important}
+
+/* Readable secret role card and visible pair hearts */
+body.in-game .village-screen .cardrole{color:#fff!important}
+body.in-game .village-screen .cardrole h2{color:#ffdb86!important;text-shadow:0 2px 4px #0005!important}
+body.in-game .village-screen .cardrole p:not(.pill),body.in-game .village-screen .cardrole .role-lover-note{color:#f8f7ff!important;opacity:1!important;text-shadow:0 1px 2px #0008!important;font-weight:650!important}
+body.in-game .village-screen .cardrole .badge{color:#fff!important;background:#644d8e!important}
+body.in-game .village-screen .village-grid .player .lover-heart{position:absolute!important;top:3px!important;right:3px!important;z-index:9!important;font-size:clamp(15px,4vw,20px)!important;line-height:1!important;filter:drop-shadow(0 1px 2px #0008)!important;pointer-events:none!important}
+body.in-game .village-screen .village-grid .player .lover-heart:has(+*){opacity:1!important}
+/* Cupid private messages: independent floating mini chat, not part of the action panel */
+body.in-game .village-screen>.love-floating{position:absolute!important;z-index:100!important;right:10px!important;bottom:calc(env(safe-area-inset-bottom) + 12px)!important;display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:7px!important;pointer-events:none!important}
+body.in-game .village-screen{position:relative!important}
+body.in-game .village-screen .love-floating>*{pointer-events:auto!important}
+body.in-game .village-screen .love-bubble{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;width:52px!important;height:52px!important;min-height:52px!important;border-radius:50%!important;border:2px solid #fff!important;background:#a94f99!important;color:#fff!important;font-size:25px!important;box-shadow:0 4px 16px #12132a88!important;cursor:pointer!important}
+body.in-game .village-screen .love-unread{position:absolute!important;top:-5px!important;right:-5px!important;min-width:18px!important;padding:2px 4px!important;border-radius:12px!important;background:#ec3159!important;color:#fff!important;font-size:11px!important;font-weight:900!important}
+body.in-game .village-screen .love-floating .love-panel{box-sizing:border-box!important;width:min(330px,calc(100vw - 30px))!important;max-height:min(48dvh,380px)!important;min-height:0!important;display:flex!important;flex-direction:column!important;gap:7px!important;overflow:hidden!important;padding:10px!important;border-radius:14px!important;border:2px solid #b773b0!important;background:#fff7fd!important;color:#242238!important;box-shadow:0 8px 24px #15132c88!important}
+body.in-game .village-screen .love-floating .love-panel h3,body.in-game .village-screen .love-floating .love-panel p{color:#302039!important}
+body.in-game .village-screen .love-floating .love-log{flex:1 1 auto!important;min-height:75px!important;max-height:190px!important;overflow-y:auto!important;overscroll-behavior:contain!important;background:#fff!important;border:1px solid #ead1e5!important;border-radius:9px!important;padding:7px!important}
+body.in-game .village-screen .love-floating .love-message{color:#242238!important;overflow-wrap:anywhere!important}
+body.in-game .village-screen .love-floating .composer{display:flex!important;gap:5px!important;flex:0 0 auto!important}
+body.in-game .village-screen .love-floating .composer input{min-width:0!important;flex:1 1 auto!important;background:#fff!important;color:#1d2434!important}
+body.in-game .village-screen .love-floating .composer button{flex:0 0 auto!important}
