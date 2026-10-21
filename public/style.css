@@ -194,3 +194,33 @@ body .app>.top{flex:0 0 auto;padding:5px 0!important}.app>.top h1{font-size:clam
 .app-room:has(.lobby-tabs){gap:5px!important}.app-room:has(.lobby-tabs)>.phase{flex:0 0 auto;padding:6px!important}.app-room:has(.lobby-tabs)>.phase h2{font-size:17px!important;margin:3px!important}.app-room:has(.lobby-tabs)>.phase p{margin:3px!important}.lobby-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;flex:0 0 auto}.lobby-tabs button{background:#263351;border:1px solid #465b82;color:#dce7ff;border-radius:8px;padding:7px 2px;font-size:11px}.lobby-tabs button.active{background:#604a9d;color:#fff;border-color:#d4baff}.lobby-content{flex:1 1 auto;min-height:0;overflow:hidden}.lobby-content>.panel{height:100%;margin:0!important;padding:6px!important;overflow:hidden}.lobby-content .gridplayers{grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}.lobby-content .player{padding:3px 2px!important;gap:2px!important}.lobby-content .player .avatar{width:clamp(22px,4dvh,36px);height:clamp(22px,4dvh,36px);font-size:clamp(13px,2.5dvh,21px)}.lobby-content .player strong{font-size:10px}.lobby-content .player small{font-size:9px}.lobby-content .kickbtn{min-height:22px;padding:2px;font-size:9px}.lobby-content .role-count-grid{gap:4px;margin:4px 0}.lobby-content .role-count{padding:4px;font-size:10px}.lobby-content .chat{height:calc(100% - 52px);overflow:hidden}.lobby-buttons{flex:0 0 auto;gap:4px!important}.lobby-buttons .btn{min-height:32px!important;padding:5px!important}
 .app-room:has(.result)>.result{flex:0 0 auto}.app-room:has(.result)>.result .symbol{font-size:38px}.app-room:has(.result)>.result h2{font-size:16px}.app-room:has(.result)>.panel:not(.result){flex:1;min-height:0;overflow:hidden}.app-room:has(.result)>.panel:not(.result) .listrow{padding:2px 0;font-size:10px}.app-room:has(.result)>.panel:not(.result) .avatar{width:24px;height:24px;font-size:13px}
 @media(max-height:600px){.app-home .home-info{display:none}.app-home .home-hero{max-height:27dvh!important}.app-create>.panel>.muted{display:none}.app-room:has(.lobby-tabs)>.phase small{display:none}.app-room:has(.result)>.result p{display:none}}
+
+/* Automatic visual day/night cycle, driven by the server game phase */
+.village-weather{position:relative;isolation:isolate;transition:background .6s ease,color .6s ease}
+.village-weather>*:not(.village-sky){position:relative;z-index:1}
+.village-weather .village-sky{position:absolute;inset:0 0 auto 0;height:44%;z-index:0;pointer-events:none;text-align:center;font-size:clamp(20px,5dvh,36px);letter-spacing:12px;padding-top:clamp(42px,9dvh,75px);opacity:.45;overflow:hidden;white-space:nowrap}
+.village-screen.village-day{background:linear-gradient(180deg,#80c9ed 0%,#b5e5fa 38%,#82bf88 70%,#46785b 100%)!important;color:#15314d}
+.village-day .village-sky{color:#ffe58b;text-shadow:0 0 28px #fff5ac}
+.village-day .village-brand{background:#e2f5ffdf!important;color:#234d72!important;border:1px solid #92c4df}
+.village-day .village-brand span{color:#4d6884!important}
+.village-day .village-phase{background:#ecf9ffe8!important;border:1px solid #83c0df!important;color:#1b4569!important}
+.village-day .village-phase .badge{background:#d1ebfa;color:#16496e}
+.village-day .village-phase h2{color:#19577b!important}
+.village-day .village-phase .clock{color:#a96111!important}
+.village-day .village-board{background:linear-gradient(145deg,#a4d8ef,#79b8da)!important;border-color:#d6f4ff!important}
+.village-day .village-role-strip{background:#32759e!important;color:#fff!important}
+.village-day .game-tabs button{background:#d9eef8;color:#245075;border-color:#86bad6}
+.village-day .game-tabs button.active{background:#2878a8;color:#fff}
+.village-day .game-tab-body{background:#b4ddf0!important;border-color:#8abbd6!important}
+.village-day .village-chat{background:#f0f8ff!important}
+.village-screen.village-night{background:linear-gradient(180deg,#171d3d 0%,#30365d 40%,#1d2447 73%,#11172e 100%)!important;color:#f5f0ff}
+.village-night .village-sky{color:#d9dfff;text-shadow:0 0 20px #b9c8ff}
+.village-night .village-board{background:linear-gradient(145deg,#48577d,#354364)!important;border-color:#697aa3!important}
+.village-night .village-grid .player:not(.dead){background:#7786a166!important;color:#f3f4ff!important;border-color:#c6d1f777!important}
+.village-night .village-grid .player:not(.dead) strong{color:#fff!important}
+.village-night .village-grid .player:not(.dead) small{color:#e1e5ff!important}
+.village-night .village-role-strip{background:#343b78!important}
+.village-night .village-chat{background:#dce3f1!important}
+.village-night .game-tab-body:not(:has(.role-action-panel)){background:#3d4d83!important}
+.village-night .village-phase{background:#19223edb!important}
+@media(prefers-reduced-motion:reduce){.village-weather{transition:none}}
