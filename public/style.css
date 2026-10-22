@@ -636,3 +636,59 @@ body.in-game .village-screen .village-board .hint{font-size:10px!important;margi
  .app.app-room .lobby-content .gridplayers.lobby-large-grid>.player{padding-left:3px!important;padding-right:3px!important}
  .app.app-room .lobby-content .gridplayers.lobby-large-grid>.player .avatar{height:62px!important;min-height:62px!important}
 }
+
+/* Lobby fixed 12-seat board: 3 columns x 4 rows, no internal scrolling. */
+.app.app-room:has(.lobby-tabs) .lobby-content:has(.lobby-large-grid){min-height:0!important;overflow:hidden!important}
+.app.app-room:has(.lobby-tabs) .lobby-content>.panel:has(.lobby-large-grid){display:flex!important;flex-direction:column!important;min-height:0!important;height:100%!important;overflow:hidden!important;padding:4px!important}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid{
+ box-sizing:border-box!important;display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-template-rows:repeat(4,minmax(0,1fr))!important;
+ grid-auto-rows:minmax(0,1fr)!important;align-content:stretch!important;
+ flex:1 1 auto!important;height:100%!important;min-height:0!important;max-height:100%!important;
+ gap:4px!important;padding:2px!important;overflow:hidden!important;
+ scrollbar-width:none!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player{
+ box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:center!important;gap:1px!important;
+ min-width:0!important;min-height:0!important;height:100%!important;max-height:100%!important;
+ padding:3px 3px!important;overflow:hidden!important;border-radius:10px!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar{
+ position:relative!important;inset:auto!important;display:flex!important;
+ flex:1 1 auto!important;min-height:0!important;height:auto!important;
+ width:100%!important;max-width:100%!important;overflow:hidden!important;margin:0!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar img{
+ width:100%!important;height:100%!important;max-height:100%!important;object-fit:contain!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>strong{
+ flex:0 0 auto!important;display:block!important;min-height:0!important;
+ width:100%!important;max-width:100%!important;
+ padding:2px!important;font-size:clamp(9px,2.7vw,12px)!important;
+ line-height:1.12!important;white-space:nowrap!important;overflow:hidden!important;
+ text-overflow:ellipsis!important;text-align:center!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>small{
+ flex:0 0 auto!important;display:block!important;min-height:0!important;
+ width:100%!important;max-width:100%!important;
+ padding:1px!important;font-size:clamp(8px,2.1vw,10px)!important;
+ line-height:1.1!important;white-space:nowrap!important;overflow:hidden!important;
+ text-overflow:ellipsis!important;opacity:1!important;color:#163f32!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>.player-number{
+ top:2px!important;left:2px!important;padding:2px 5px!important;
+ font-size:clamp(11px,3vw,15px)!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .kickbtn{
+ position:absolute!important;right:2px!important;top:2px!important;
+ width:auto!important;min-width:0!important;min-height:20px!important;
+ height:20px!important;max-height:20px!important;padding:1px 4px!important;
+ font-size:9px!important;z-index:9!important
+}
+@media(max-height:690px){
+ .app.app-room:has(.lobby-tabs)>.phase{padding:3px!important}
+ .app.app-room:has(.lobby-tabs)>.phase h2{margin:1px!important;font-size:15px!important}
+ .app.app-room:has(.lobby-tabs) .lobby-content>.panel:has(.lobby-large-grid)>.heading{flex-basis:21px!important;min-height:21px!important}
+}
