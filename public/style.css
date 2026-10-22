@@ -528,3 +528,9 @@ body.in-game .village-screen .love-floating .love-message.mine small{color:#8b2b
 body.in-game .village-screen .love-floating .love-message div{color:inherit!important;opacity:1!important}
 body.in-game .village-screen .love-floating .love-panel .muted,body.in-game .village-screen .love-floating .love-panel .hint{color:#485469!important;opacity:1!important}
 body.in-game .village-screen .love-floating .composer input::placeholder{color:#64748b!important}
+
+/* Private wolf team indicators, visible in every phase only to wolf players. */
+body.in-game .village-screen .village-grid .player.wolf-teammate{border:2px solid #f2a14a!important;box-shadow:inset 0 0 0 1px #9d441f,0 0 8px #f1a04a88!important}
+body.in-game .village-screen .village-grid .player .wolf-mate-mark{display:block!important;position:relative!important;z-index:8!important;width:max-content!important;max-width:100%!important;margin:2px auto!important;padding:2px 5px!important;border-radius:8px!important;background:#6f2434!important;color:#fff!important;font-size:clamp(9px,2.4vw,12px)!important;font-weight:900!important;line-height:1.2!important;text-shadow:none!important}
+body.in-game .village-screen .wolf-team-strip{margin:5px 8px!important;padding:7px 10px!important;border-radius:10px!important;background:#652637!important;color:#fff4e7!important;font-size:13px!important;font-weight:750!important;line-height:1.35!important}
+body.in-game .village-screen .cardrole .wolf-team-info{color:#fff1d4!important;background:#662c3d!important;border-radius:9px!important;padding:8px!important;font-weight:800!important}
