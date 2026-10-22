@@ -539,3 +539,7 @@ body.in-game .village-screen .cardrole .wolf-team-info{color:#fff1d4!important;b
 body.in-game .village-screen .wolf-vote-summary{margin:8px 0!important;padding:10px!important;border-radius:11px!important;background:#fff2e5!important;border:2px solid #e9a36c!important;color:#432519!important;font-size:13px!important;line-height:1.4!important}
 body.in-game .village-screen .wolf-vote-summary strong,body.in-game .village-screen .wolf-vote-summary p{color:#432519!important;opacity:1!important}
 body.in-game .village-screen .wolf-vote-line{padding:5px 3px!important;color:#492319!important;font-weight:750!important;border-bottom:1px solid #e7c4a5!important;overflow-wrap:anywhere!important}
+
+/* Midgame voluntary exit control */
+body.in-game .village-screen .game-exit-button{display:block!important;margin:8px auto 12px!important;padding:7px 14px!important;min-height:34px!important;max-width:220px!important;background:#fff3f1!important;color:#922c30!important;border:1px solid #dc888a!important;border-radius:10px!important;font-size:13px!important;font-weight:800!important;cursor:pointer!important}
+body.in-game .village-screen .game-exit-button:focus-visible{outline:3px solid #f59e0b!important;outline-offset:2px!important}
