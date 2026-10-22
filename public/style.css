@@ -534,3 +534,8 @@ body.in-game .village-screen .village-grid .player.wolf-teammate{border:2px soli
 body.in-game .village-screen .village-grid .player .wolf-mate-mark{display:block!important;position:relative!important;z-index:8!important;width:max-content!important;max-width:100%!important;margin:2px auto!important;padding:2px 5px!important;border-radius:8px!important;background:#6f2434!important;color:#fff!important;font-size:clamp(9px,2.4vw,12px)!important;font-weight:900!important;line-height:1.2!important;text-shadow:none!important}
 body.in-game .village-screen .wolf-team-strip{margin:5px 8px!important;padding:7px 10px!important;border-radius:10px!important;background:#652637!important;color:#fff4e7!important;font-size:13px!important;font-weight:750!important;line-height:1.35!important}
 body.in-game .village-screen .cardrole .wolf-team-info{color:#fff1d4!important;background:#662c3d!important;border-radius:9px!important;padding:8px!important;font-weight:800!important}
+
+/* Live wolf voting panel, private to wolves during their night turn. */
+body.in-game .village-screen .wolf-vote-summary{margin:8px 0!important;padding:10px!important;border-radius:11px!important;background:#fff2e5!important;border:2px solid #e9a36c!important;color:#432519!important;font-size:13px!important;line-height:1.4!important}
+body.in-game .village-screen .wolf-vote-summary strong,body.in-game .village-screen .wolf-vote-summary p{color:#432519!important;opacity:1!important}
+body.in-game .village-screen .wolf-vote-line{padding:5px 3px!important;color:#492319!important;font-weight:750!important;border-bottom:1px solid #e7c4a5!important;overflow-wrap:anywhere!important}
