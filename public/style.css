@@ -543,3 +543,35 @@ body.in-game .village-screen .wolf-vote-line{padding:5px 3px!important;color:#49
 /* Midgame voluntary exit control */
 body.in-game .village-screen .game-exit-button{display:block!important;margin:8px auto 12px!important;padding:7px 14px!important;min-height:34px!important;max-width:220px!important;background:#fff3f1!important;color:#922c30!important;border:1px solid #dc888a!important;border-radius:10px!important;font-size:13px!important;font-weight:800!important;cursor:pointer!important}
 body.in-game .village-screen .game-exit-button:focus-visible{outline:3px solid #f59e0b!important;outline-offset:2px!important}
+
+/* 2026 large player portraits: three across, compact round header */
+body.in-game .village-screen .village-phase{padding:3px 7px!important;min-height:34px!important;max-height:43px!important;display:flex!important;align-items:center!important;gap:6px!important}
+body.in-game .village-screen .village-phase .badge{font-size:11px!important;padding:3px 6px!important;white-space:nowrap!important}
+body.in-game .village-screen .village-phase .clock{font-size:clamp(17px,4.5vw,24px)!important;line-height:1.1!important}
+body.in-game .village-screen .village-phase small{font-size:10px!important}
+body.in-game .village-screen .village-board{flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;padding:5px!important}
+body.in-game .village-screen .village-board .heading{flex:0 0 auto!important;margin:0 2px 3px!important;min-height:22px!important}
+body.in-game .village-screen .village-board .heading h3{font-size:14px!important;margin:0!important}
+body.in-game .village-screen .village-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:minmax(125px,1fr)!important;align-content:start!important;gap:6px!important;overflow-y:auto!important;overflow-x:hidden!important;min-height:0!important;max-height:100%!important;flex:1 1 auto!important}
+body.in-game .village-screen .village-grid .player{position:relative!important;min-width:0!important;min-height:125px!important;height:100%!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important;align-items:center!important;gap:2px!important;padding:6px 3px 7px!important;overflow:hidden!important;border-radius:13px!important;background:linear-gradient(180deg,#87d3f4 0%,#b2e3f7 50%,#6ab991 100%)!important;border:2px solid #bceeff!important}
+body.in-game .village-screen .village-grid .player.dead{background:linear-gradient(180deg,#8092a9,#3d344f)!important}
+body.in-game .village-screen .village-grid .player .avatar{position:absolute!important;inset:17px 2px 24px!important;width:auto!important;height:auto!important;max-width:none!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;opacity:1!important}
+body.in-game .village-screen .village-grid .player .avatar img.character-portrait{display:block;max-width:100%!important;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center bottom!important}
+body.in-game .village-screen .village-grid .player.dead .avatar{font-size:45px!important;color:#fff!important;opacity:.8!important}
+body.in-game .village-screen .village-grid .player .player-number{position:absolute!important;top:3px!important;left:3px!important;z-index:10!important;font-size:16px!important;line-height:1!important;font-weight:900!important;padding:4px 7px!important;border-radius:8px!important;background:#20b972!important;color:#fff!important;text-shadow:0 1px 2px #0007!important}
+body.in-game .village-screen .village-grid .player.dead .player-number{background:#65738b!important}
+body.in-game .village-screen .village-grid .player .player-visible-name{position:relative!important;z-index:6!important;display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;padding:2px 3px!important;border-radius:7px!important;background:#164b77db!important;color:#fff!important;font-size:clamp(11px,3vw,15px)!important;line-height:1.2!important;text-align:center!important}
+body.in-game .village-screen .village-grid .player small{position:relative!important;z-index:6!important;font-size:10px!important;line-height:1.1!important;background:#e9f5fcdf!important;color:#20435a!important;border-radius:6px!important;padding:1px 3px!important}
+body.in-game .village-screen .village-grid .player .vote-prompt{position:relative!important;z-index:7!important;font-size:10px!important;padding:2px 4px!important;line-height:1.1!important}
+body.in-game .village-screen .village-grid .player .wolf-mate-mark{position:absolute!important;top:2px!important;right:2px!important;max-width:62%!important;font-size:9px!important}
+body.in-game .village-screen .village-grid .player .hypnotized-mark{position:relative!important;z-index:8!important;font-size:9px!important}
+body.in-game .village-screen .village-vote-announcement{font-size:11px!important;padding:4px 6px!important;margin:2px 0!important}
+body.in-game .village-screen .village-board .hint{font-size:10px!important;margin:2px!important}
+/* Lobby: participants first, portraits enlarged in three columns */
+.app-room:has(.lobby-tabs) .lobby-content .lobby-large-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:minmax(110px,1fr)!important;gap:6px!important;overflow-y:auto!important}
+.app-room:has(.lobby-tabs) .lobby-content .lobby-large-grid .player{position:relative!important;min-height:110px!important;justify-content:flex-end!important;padding:5px 3px!important;background:linear-gradient(180deg,#8dd7f8,#a5d7ef 55%,#7bc29d)!important;border:2px solid #bfeaff!important;border-radius:12px!important;overflow:hidden!important}
+.app-room:has(.lobby-tabs) .lobby-content .lobby-large-grid .player .avatar{position:absolute!important;inset:18px 3px 26px!important;width:auto!important;height:auto!important;max-width:none!important}
+.app-room:has(.lobby-tabs) .lobby-content .lobby-large-grid .player .avatar img{width:100%!important;height:100%!important;object-fit:contain!important}
+.app-room:has(.lobby-tabs) .lobby-content .lobby-large-grid .player strong{position:relative!important;z-index:4!important;background:#184d76dd!important;color:white!important;border-radius:6px!important;max-width:100%!important;font-size:12px!important;padding:2px!important}
+.app-room:has(.lobby-tabs) .lobby-content .lobby-large-grid .player small{position:relative!important;z-index:4!important;font-size:10px!important}
+.app-room:has(.lobby-tabs) .lobby-content .lobby-large-grid .player .player-number{position:absolute!important;top:3px!important;left:3px!important;z-index:8!important;background:#22b96f!important;color:white!important;font-size:16px!important;font-weight:900!important;border-radius:8px!important;padding:3px 7px!important}
