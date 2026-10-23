@@ -692,3 +692,107 @@ body.in-game .village-screen .village-board .hint{font-size:10px!important;margi
  .app.app-room:has(.lobby-tabs)>.phase h2{margin:1px!important;font-size:15px!important}
  .app.app-room:has(.lobby-tabs) .lobby-content>.panel:has(.lobby-large-grid)>.heading{flex-basis:21px!important;min-height:21px!important}
 }
+
+/* Square 12-player boards: preserve 3x4 layout, show all seats without scroll. */
+.app.app-room:has(.lobby-tabs)>.lobby-room-info{
+ box-sizing:border-box!important;display:flex!important;flex-direction:row!important;
+ justify-content:center!important;align-items:center!important;gap:8px!important;
+ flex:0 0 29px!important;height:29px!important;min-height:29px!important;
+ padding:2px 6px!important;margin:0!important;border-radius:9px!important
+}
+.app.app-room:has(.lobby-tabs)>.lobby-room-info .badge,
+.app.app-room:has(.lobby-tabs)>.lobby-room-info .lobby-room-count{
+ font-size:11px!important;font-weight:800!important;white-space:nowrap!important
+}
+.app.app-room:has(.lobby-tabs)>.lobby-room-info .btn{
+ padding:3px 6px!important;min-height:23px!important;font-size:10px!important
+}
+.app.app-room:has(.lobby-tabs)>.lobby-tabs{gap:3px!important}
+.app.app-room:has(.lobby-tabs)>.lobby-tabs button{padding:4px 2px!important}
+.app.app-room:has(.lobby-tabs) .lobby-content:has(.lobby-large-grid){
+ flex:1 1 auto!important;min-height:0!important;display:flex!important;justify-content:center!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content>.panel:has(.lobby-large-grid){
+ box-sizing:border-box!important;flex:1 1 auto!important;min-width:0!important;
+ display:flex!important;align-items:center!important;flex-direction:column!important;
+ overflow:hidden!important;padding:3px!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content>.panel:has(.lobby-large-grid)>.heading{
+ width:100%!important;flex:0 0 21px!important;min-height:21px!important;margin:0 0 3px!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid{
+ box-sizing:border-box!important;display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-template-rows:repeat(4,minmax(0,1fr))!important;
+ grid-auto-rows:minmax(0,1fr)!important;gap:4px!important;
+ width:min(100%,calc((100dvh - 214px)*.75))!important;
+ height:auto!important;aspect-ratio:3 / 4!important;
+ max-width:100%!important;max-height:100%!important;
+ flex:0 1 auto!important;min-height:0!important;
+ align-content:stretch!important;overflow:hidden!important;padding:1px!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player{
+ box-sizing:border-box!important;min-width:0!important;min-height:0!important;
+ width:100%!important;height:100%!important;max-height:none!important;
+ aspect-ratio:1 / 1!important;gap:1px!important;padding:20px 3px 3px!important;
+ justify-content:flex-end!important;overflow:hidden!important;border-radius:11px!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar{
+ flex:1 1 auto!important;min-height:0!important;width:100%!important;
+ height:auto!important;max-height:none!important;overflow:hidden!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>strong{
+ flex:0 0 auto!important;min-height:0!important;font-size:clamp(9px,2.6vw,12px)!important;
+ white-space:nowrap!important;line-height:1.12!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>small{
+ flex:0 0 auto!important;min-height:0!important;font-size:clamp(8px,2.1vw,10px)!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .kickbtn{
+ position:absolute!important;right:2px!important;top:2px!important;
+ font-size:0!important;width:21px!important;height:21px!important;
+ padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .kickbtn::first-letter{font-size:12px!important}
+.app.app-room:has(.lobby-tabs)>.lobby-buttons{gap:2px!important}
+.app.app-room:has(.lobby-tabs)>.lobby-buttons .btn{min-height:28px!important;padding:3px!important}
+
+/* Match board is square cards as well; use available viewport height, never scroll roster. */
+body.in-game .village-screen>.village-board{
+ box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+ align-items:center!important;flex:1 1 auto!important;min-height:0!important;
+ overflow:hidden!important;padding:3px!important
+}
+body.in-game .village-screen>.village-board>.heading{width:100%!important}
+body.in-game .village-screen .village-grid{
+ box-sizing:border-box!important;display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-template-rows:repeat(4,minmax(0,1fr))!important;
+ grid-auto-rows:minmax(0,1fr)!important;
+ gap:4px!important;width:min(100%,calc((100dvh - 230px)*.75))!important;
+ height:auto!important;aspect-ratio:3 / 4!important;
+ max-width:100%!important;max-height:100%!important;
+ flex:0 1 auto!important;min-height:0!important;
+ align-content:stretch!important;overflow:hidden!important;padding:1px!important
+}
+body.in-game .village-screen .village-grid>.player{
+ box-sizing:border-box!important;min-width:0!important;min-height:0!important;
+ width:100%!important;height:100%!important;max-height:none!important;
+ aspect-ratio:1 / 1!important;padding:18px 3px 4px!important;
+ gap:1px!important;overflow:hidden!important;border-radius:11px!important
+}
+body.in-game .village-screen .village-grid>.player .avatar{
+ position:absolute!important;inset:18px 2px 26px!important;
+ width:auto!important;height:auto!important;min-height:0!important
+}
+body.in-game .village-screen .village-grid>.player .player-visible-name{
+ font-size:clamp(9px,2.6vw,13px)!important
+}
+@media(max-height:650px){
+ .app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid{
+  width:min(100%,calc((100dvh - 190px)*.75))!important
+ }
+ body.in-game .village-screen .village-grid{
+  width:min(100%,calc((100dvh - 200px)*.75))!important
+ }
+}
