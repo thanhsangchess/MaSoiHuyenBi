@@ -849,3 +849,31 @@ body.in-game .village-screen .village-grid>.player>.player-number{
 body.in-game .village-screen .village-grid>.player .avatar img.character-portrait{
  transform:scale(1.9)!important;transform-origin:center center!important
 }
+
+/* Keep portraits large but put them in front of the blue card background;
+   reserve the name/status bars at the bottom and prevent top clipping. */
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player{
+ position:relative!important;isolation:isolate!important;
+ padding:3px 3px 3px!important;overflow:hidden!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar{
+ position:absolute!important;top:3px!important;left:3px!important;right:3px!important;
+ bottom:34px!important;width:auto!important;height:auto!important;
+ min-height:0!important;max-height:none!important;
+ overflow:visible!important;z-index:3!important;
+ display:flex!important;align-items:center!important;justify-content:center!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar img.character-portrait{
+ position:absolute!important;top:50%!important;left:50%!important;
+ width:100%!important;height:100%!important;
+ transform:translate(-50%,-50%) scale(2.15)!important;
+ object-fit:contain!important;object-position:center center!important;
+ z-index:3!important;pointer-events:none!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>strong,
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>small{
+ position:relative!important;z-index:5!important;margin-top:0!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>.player-number{
+ z-index:6!important
+}
