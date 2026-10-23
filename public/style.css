@@ -877,3 +877,36 @@ body.in-game .village-screen .village-grid>.player .avatar img.character-portrai
 .app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>.player-number{
  z-index:6!important
 }
+
+/* Match player portraits: same no-shrink layering fix as lobby. */
+body.in-game .village-screen .village-grid>.player{
+ position:relative!important;isolation:isolate!important;
+ padding:3px!important;overflow:hidden!important
+}
+body.in-game .village-screen .village-grid>.player .avatar{
+ position:absolute!important;top:3px!important;left:3px!important;right:3px!important;
+ bottom:31px!important;inset:3px 3px 31px!important;
+ width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;
+ max-height:none!important;overflow:visible!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ z-index:3!important
+}
+body.in-game .village-screen .village-grid>.player .avatar img.character-portrait{
+ display:block!important;position:absolute!important;top:50%!important;left:50%!important;
+ width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;
+ object-fit:contain!important;object-position:center center!important;
+ transform:translate(-50%,-50%) scale(1.9)!important;
+ transform-origin:center center!important;z-index:3!important;pointer-events:none!important
+}
+body.in-game .village-screen .village-grid>.player .player-visible-name,
+body.in-game .village-screen .village-grid>.player>small{
+ position:relative!important;z-index:5!important
+}
+body.in-game .village-screen .village-grid>.player>.player-number{
+ position:absolute!important;top:3px!important;left:3px!important;
+ width:19px!important;height:19px!important;min-width:19px!important;
+ min-height:19px!important;max-width:19px!important;max-height:19px!important;
+ padding:0!important;display:flex!important;align-items:center!important;
+ justify-content:center!important;font-size:11px!important;line-height:1!important;
+ border-radius:5px!important;z-index:9!important
+}
