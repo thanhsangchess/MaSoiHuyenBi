@@ -796,3 +796,20 @@ body.in-game .village-screen .village-grid>.player .player-visible-name{
   width:min(100%,calc((100dvh - 200px)*.75))!important
  }
 }
+
+/* Character artwork must be prominent inside the square player cards. */
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar{
+ position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;flex:1 1 auto!important;min-height:0!important;overflow:hidden!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar img.character-portrait{
+ display:block!important;position:absolute!important;top:50%!important;left:50%!important;
+ width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;
+ object-fit:contain!important;object-position:center!important;
+ transform:translate(-50%,-50%) scale(2.15)!important;transform-origin:center!important
+}
+body.in-game .village-screen .village-grid>.player .avatar img.character-portrait{
+ display:block!important;width:100%!important;height:100%!important;
+ max-width:none!important;max-height:none!important;object-fit:contain!important;
+ transform:scale(1.9)!important;transform-origin:center center!important
+}
