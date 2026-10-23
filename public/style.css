@@ -825,3 +825,27 @@ body.in-game .village-screen .village-grid>.player .avatar img.character-portrai
  transform:scale(1.4)!important;transform-origin:center center!important;
  object-position:center center!important
 }
+
+/* Large portraits, compact corner seat numbers that do not cover faces. */
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player>.player-number,
+body.in-game .village-screen .village-grid>.player>.player-number{
+ position:absolute!important;top:3px!important;left:3px!important;
+ width:19px!important;height:19px!important;min-width:19px!important;min-height:19px!important;
+ max-width:19px!important;max-height:19px!important;
+ padding:0!important;margin:0!important;box-sizing:border-box!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ border-radius:5px!important;font-size:11px!important;line-height:1!important;
+ font-weight:800!important;z-index:9!important;
+ background:#20b972!important;color:#fff!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player{
+ padding-top:3px!important
+}
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar img.character-portrait{
+ top:50%!important;left:50%!important;
+ transform:translate(-50%,-50%) scale(2.15)!important;
+ transform-origin:center center!important
+}
+body.in-game .village-screen .village-grid>.player .avatar img.character-portrait{
+ transform:scale(1.9)!important;transform-origin:center center!important
+}
