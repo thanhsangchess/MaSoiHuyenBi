@@ -910,3 +910,11 @@ body.in-game .village-screen .village-grid>.player>.player-number{
  justify-content:center!important;font-size:11px!important;line-height:1!important;
  border-radius:5px!important;z-index:9!important
 }
+
+/* Final portrait fit: slight reduction keeps hats and hair inside square tiles. */
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar img.character-portrait{
+ transform:translate(-50%,-50%) scale(1.85)!important
+}
+body.in-game .village-screen .village-grid>.player .avatar img.character-portrait{
+ transform:translate(-50%,-50%) scale(1.7)!important
+}
