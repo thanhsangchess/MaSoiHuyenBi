@@ -35,7 +35,7 @@ const ROLE_PLANS={
 6:{wolf:1,guard:1,fool:1,hunter:1,seer:1,cupid:1},
 7:{wolf:2,guard:1,fool:1,hunter:1,seer:1,cupid:1},
 8:{wolf:2,guard:1,fool:1,seer:1,cupid:1,witch:1,hypnotist:1},
-9:{wolf:3,guard:1,fool:1,seer:1,cupid:1,witch:1,hypnotist:1},
+9:{wolf:2,guard:1,fool:1,seer:1,cupid:1,witch:1,hypnotist:1,hunter:1},
 10:{wolf:3,guard:1,fool:1,seer:1,cupid:1,witch:1,hypnotist:1,hunter:1},
 11:{wolf:3,guard:1,fool:1,seer:1,cupid:1,witch:1,hypnotist:1,hunter:1,villager:1},
 12:{wolf:3,guard:1,fool:1,seer:1,cupid:1,witch:1,hypnotist:1,hunter:1,villager:2}};
