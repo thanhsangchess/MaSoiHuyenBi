@@ -813,3 +813,15 @@ body.in-game .village-screen .village-grid>.player .avatar img.character-portrai
  max-width:none!important;max-height:none!important;object-fit:contain!important;
  transform:scale(1.9)!important;transform-origin:center center!important
 }
+
+/* Keep full character heads visible after enlarging portraits. */
+.app.app-room:has(.lobby-tabs) .lobby-content .gridplayers.lobby-large-grid>.player .avatar img.character-portrait{
+ top:50%!important;left:50%!important;
+ transform:translate(-50%,-50%) scale(1.55)!important;
+ transform-origin:center center!important;
+ object-position:center center!important
+}
+body.in-game .village-screen .village-grid>.player .avatar img.character-portrait{
+ transform:scale(1.4)!important;transform-origin:center center!important;
+ object-position:center center!important
+}
