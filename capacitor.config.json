@@ -1,0 +1,12 @@
+{
+  "appId": "com.masoi.huyenbi",
+  "appName": "Ma Sói Huyền Bí",
+  "webDir": "public",
+  "server": {
+    "url": "https://ma-soi-huyen-bi.onrender.com",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}
