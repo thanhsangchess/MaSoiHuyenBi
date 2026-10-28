@@ -934,3 +934,71 @@ body.in-game .village-screen.village-acting .role-picked-area{min-height:20px!im
 body.in-game .village-screen.village-acting .wolf-vote-summary{max-height:none!important;overflow:visible!important;padding:4px!important;font-size:10px!important}
 body.in-game .village-screen.village-acting .wolf-vote-line{font-size:10px!important;line-height:1.2!important;margin:2px 0!important}
 @media(max-height:680px){body.in-game .village-screen.village-acting>.turn-banner,body.in-game .village-screen.village-acting>.village-role-strip{display:none!important}body.in-game .village-screen.village-acting .role-action-heading p{display:none!important}body.in-game .village-screen.village-acting .role-action-note{display:none!important}}
+
+
+/* Player-frame will notebook and shared wolf target markers. */
+body.in-game .village-screen .village-grid>.player .will-book-btn{
+  position:absolute!important;top:3px!important;right:3px!important;z-index:15!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;
+  padding:0!important;border:1px solid #c8b7f0!important;border-radius:6px!important;
+  background:#2e315b!important;color:#fff!important;font-size:13px!important;line-height:1!important;
+  box-shadow:0 1px 3px #0005!important;cursor:pointer!important;touch-action:manipulation!important
+}
+body.in-game .village-screen .village-grid>.player .will-book-btn.has-will{
+  background:#fff0b8!important;border-color:#e9c75a!important;color:#413112!important
+}
+body.in-game .village-screen .village-grid>.player .wolf-pick-badges{
+  position:absolute!important;top:27px!important;right:2px!important;z-index:14!important;
+  display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:2px!important;
+  max-width:calc(100% - 4px)!important;pointer-events:none!important
+}
+body.in-game .village-screen .village-grid>.player .wolf-pick-mark{
+  display:block!important;max-width:100%!important;padding:2px 4px!important;border-radius:5px!important;
+  border:1px solid #ffb0b8!important;background:#7c2035ed!important;color:#fff!important;
+  font-size:9px!important;font-weight:900!important;line-height:1.1!important;white-space:nowrap!important;
+  box-shadow:0 1px 3px #0005!important
+}
+.wolf-shared-picks{
+  flex:0 0 auto;max-height:80px;overflow-y:auto;display:flex;flex-direction:column;gap:3px;
+  padding:5px 8px;border:1px solid #e6a1ad;border-radius:9px;background:#4b233b;color:#fff;
+  font-size:11px;line-height:1.2
+}
+.wolf-shared-picks>strong{font-size:11px;color:#ffe3a9}
+.wolf-shared-pick-line{overflow-wrap:anywhere}
+.wolf-shared-pick-line small{color:#ffd9a0;font-size:9px;font-weight:800}
+.wolf-vote-summary{max-height:none!important;overflow:visible!important}
+.wolf-vote-line{overflow-wrap:anywhere;line-height:1.25}
+.wolf-vote-line small{color:#ffe3a9;font-size:10px;font-weight:800}
+.lynch-choice.active{outline:3px solid #fed66c!important;outline-offset:1px!important;filter:brightness(1.12)!important}
+.will-modal-overlay{
+  position:fixed!important;inset:0!important;z-index:10050!important;display:flex!important;
+  align-items:center!important;justify-content:center!important;padding:14px!important;
+  background:rgba(5,8,23,.78)!important;backdrop-filter:blur(3px)!important
+}
+.will-modal{
+  box-sizing:border-box!important;width:min(100%,420px)!important;max-height:min(82dvh,540px)!important;
+  overflow-y:auto!important;padding:15px!important;border:1px solid #a99bcf!important;border-radius:16px!important;
+  background:linear-gradient(160deg,#f9f8ff,#e9edfc)!important;color:#1b2340!important;
+  box-shadow:0 18px 60px #0009!important
+}
+.will-modal .heading{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;margin-bottom:8px!important}
+.will-modal .heading h3{margin:0!important;font-size:16px!important;line-height:1.25!important;color:#2d315e!important}
+.will-modal .muted{color:#515977!important;font-size:12px!important}
+.will-modal textarea{
+  box-sizing:border-box!important;width:100%!important;min-height:95px!important;max-height:180px!important;
+  padding:10px!important;border:1px solid #aeb8d3!important;border-radius:9px!important;
+  background:#fff!important;color:#171b2b!important;font:inherit!important;font-size:14px!important;resize:vertical!important
+}
+.will-modal-actions{display:flex!important;justify-content:flex-end!important;gap:8px!important;margin-top:9px!important}
+.will-modal .btn{min-height:34px!important;padding:7px 12px!important}
+.will-modal-text{
+  padding:12px!important;min-height:44px!important;border-radius:9px!important;
+  background:#fff!important;border:1px solid #cbd2e6!important;color:#20263c!important;
+  font-size:14px!important;line-height:1.45!important;overflow-wrap:anywhere!important;white-space:pre-wrap!important
+}
+@media(max-width:360px){
+  body.in-game .village-screen .village-grid>.player .will-book-btn{width:19px!important;height:19px!important;min-width:19px!important;min-height:19px!important;font-size:11px!important}
+  body.in-game .village-screen .village-grid>.player .wolf-pick-mark{font-size:8px!important;padding:2px 3px!important}
+  .will-modal{padding:11px!important}
+}
