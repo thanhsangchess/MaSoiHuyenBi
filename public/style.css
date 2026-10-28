@@ -1002,3 +1002,32 @@ body.in-game .village-screen .village-grid>.player .wolf-pick-mark{
   body.in-game .village-screen .village-grid>.player .wolf-pick-mark{font-size:8px!important;padding:2px 3px!important}
   .will-modal{padding:11px!important}
 }
+
+
+/* Keep the Cupid inbox accessible on the results screen too, not only during live play. */
+.love-floating{
+  position:fixed!important;right:10px!important;bottom:12px!important;z-index:10020!important;
+  display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:7px!important;
+  pointer-events:none!important
+}
+.love-floating>*{pointer-events:auto!important}
+.love-bubble{
+  position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  width:48px!important;height:48px!important;min-height:48px!important;border-radius:50%!important;
+  border:2px solid #fff!important;background:#a94f99!important;color:#fff!important;font-size:23px!important;
+  box-shadow:0 4px 16px #12132a88!important;cursor:pointer!important
+}
+.love-floating .love-panel{
+  box-sizing:border-box!important;width:min(330px,calc(100vw - 24px))!important;
+  max-height:min(48dvh,380px)!important;min-height:0!important;display:flex!important;flex-direction:column!important;
+  gap:7px!important;overflow:hidden!important;padding:10px!important;border-radius:14px!important;
+  border:2px solid #b773b0!important;background:#fff7fd!important;color:#242238!important;
+  box-shadow:0 8px 24px #15132c88!important
+}
+.love-floating .love-panel h3,.love-floating .love-panel p{color:#302039!important}
+.love-floating .love-log{flex:1 1 auto!important;min-height:70px!important;max-height:190px!important;overflow-y:auto!important;background:#fff!important;color:#182536!important;border:1px solid #ead1e5!important;border-radius:9px!important;padding:7px!important}
+.love-floating .love-message{background:#edf2fa!important;color:#15253b!important;border:1px solid #c8d5e5!important;overflow-wrap:anywhere!important}
+.love-floating .love-message.mine{background:#fbe0ef!important;color:#382038!important;border-color:#e7aacb!important}
+.love-floating .composer{display:flex!important;gap:5px!important;flex:0 0 auto!important}
+.love-floating .composer input{box-sizing:border-box!important;min-width:0!important;flex:1 1 auto!important;background:#fff!important;color:#1d2434!important}
+.love-floating .composer button{flex:0 0 auto!important}
