@@ -918,3 +918,19 @@ body.in-game .village-screen .village-grid>.player>.player-number{
 body.in-game .village-screen .village-grid>.player .avatar img.character-portrait{
  transform:translate(-50%,-50%) scale(1.7)!important
 }
+
+/* Night-role confirmation always fully visible without internal scrolling. The board and chat yield space while acting. */
+body.in-game .village-screen.village-acting>.game-tab-body:has(.role-action-panel){flex:0 0 auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;padding:2px!important}
+body.in-game .village-screen.village-acting>.game-tab-body .role-action-panel{height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;padding:5px!important;gap:3px!important}
+body.in-game .village-screen.village-acting>.game-tab-body .role-action-heading{padding:3px!important;gap:5px!important}
+body.in-game .village-screen.village-acting>.game-tab-body .role-action-heading p{font-size:10px!important;line-height:1.15!important}
+body.in-game .village-screen.village-acting>.game-tab-body .role-action-icon{font-size:20px!important;min-width:30px!important}
+body.in-game .village-screen.village-acting>.game-tab-body .role-confirm{min-height:32px!important;padding:5px 12px!important;font-size:13px!important}
+body.in-game .village-screen.village-acting>.village-board{flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important}
+body.in-game .village-screen.village-acting>.village-board .village-grid{height:calc(100% - 20px)!important;min-height:0!important;grid-template-rows:repeat(3,minmax(0,1fr))!important}
+body.in-game .village-screen.village-acting>.village-board .village-grid .player{height:100%!important;min-height:0!important;max-height:none!important}
+body.in-game .village-screen.village-acting>.village-chat{display:none!important}
+body.in-game .village-screen.village-acting .role-picked-area{min-height:20px!important;padding:2px!important}
+body.in-game .village-screen.village-acting .wolf-vote-summary{max-height:none!important;overflow:visible!important;padding:4px!important;font-size:10px!important}
+body.in-game .village-screen.village-acting .wolf-vote-line{font-size:10px!important;line-height:1.2!important;margin:2px 0!important}
+@media(max-height:680px){body.in-game .village-screen.village-acting>.turn-banner,body.in-game .village-screen.village-acting>.village-role-strip{display:none!important}body.in-game .village-screen.village-acting .role-action-heading p{display:none!important}body.in-game .village-screen.village-acting .role-action-note{display:none!important}}
