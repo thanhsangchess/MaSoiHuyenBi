@@ -3,7 +3,7 @@ services:
     name: ma-soi-huyen-bi
     runtime: node
     plan: free
-    buildCommand: npm ci --omit=dev
+    buildCommand: npm install --omit=dev --no-audit --no-fund
     startCommand: npm start
     healthCheckPath: /health
     envVars:
