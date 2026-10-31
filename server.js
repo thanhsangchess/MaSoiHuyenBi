@@ -6,7 +6,7 @@ import { randomBytes, randomUUID } from 'node:crypto';
 const app=express();const server=http.createServer(app);const io=new Server(server,{pingTimeout:20000,cors:{origin:false}});
 app.use(express.static('public'));
 const rooms=new Map();
-const LOBBY_ROOM_TTL=12*60*60*1000;
+const LOBBY_ROOM_TTL=4*60*60*1000;
 // Durable snapshots require Upstash Redis REST credentials in Render environment.
 const redisUrl=(process.env.UPSTASH_REDIS_REST_URL||'').replace(/\/$/,'');
 const redisToken=process.env.UPSTASH_REDIS_REST_TOKEN||'';
