@@ -49,7 +49,7 @@ function view(r,p){const v=roomPublic(r);v.self={id:p.id,role:p.role,alive:p.ali
  if(r.phase==='hunter'&&r.hunterId===p.id)v.action={kind:'hunter',targets:living(r).filter(x=>x.id!==p.id).map(x=>({id:x.id,name:x.name}))};
  if(r.phase==='lynch'&&p.alive&&p.id!==r.lynchTarget)v.action={kind:'lynch',submitted:!!r.lynchVotes[p.id],choice:r.lynchVotes[p.id]||null};
  if(r.phase==='vote'&&p.alive)v.action={kind:'vote',targets:living(r).filter(x=>x.id!==p.id).map(x=>({id:x.id,name:x.name})),submitted:!!r.votes[p.id]};
- if(r.phase==='ended')v.reveal=r.players.map(x=>({id:x.id,name:x.name,role:x.role}));return v;}
+ if(r.phase==='ended')v.reveal=r.players.map(x=>({id:x.id,name:x.name,role:x.role,isBot:!!x.isBot}));return v;}
 function emit(r){persist();io.emit('room:list-updated');io.to(r.code).emit('room:public',roomPublic(r));for(const p of r.players){if(p.socketId)io.to(p.socketId).emit('room:state',view(r,p));}}
 function targets(r,p){const alive=living(r);let xs=[];switch(p.role){case 'wolf':xs=alive;break;case 'seer':xs=alive.filter(x=>x.id!==p.id);break;case 'hunter':xs=alive.filter(x=>x.id!==p.id);break;case 'guard':xs=alive.filter(x=>x.id!==r.lastGuard);break;case 'witch':xs=alive.filter(x=>x.id!==p.id);break;case 'cupid':xs=alive;break;case 'hypnotist':xs=alive.filter(x=>!x.hypnotized);break;default:xs=[];}return xs.map(x=>({id:x.id,name:x.name}));}
 function clear(r){if(r.timer)clearTimeout(r.timer);r.timer=null;}
