@@ -12,6 +12,10 @@ const redisUrl=(process.env.UPSTASH_REDIS_REST_URL||'').replace(/\/$/,'');
 const redisToken=process.env.UPSTASH_REDIS_REST_TOKEN||'';
 const persistenceEnabled=!!(redisUrl&&redisToken);
 const persistenceKey='ma-soi-huyen-bi:rooms:v1';
+const openAiKey=process.env.OPENAI_API_KEY||'';
+const openAiModel=process.env.OPENAI_MODEL||'gpt-4o-mini';
+const aiEnabled=!!openAiKey;
+if(aiEnabled)console.log('AI nhân vật đã bật:',openAiModel);else console.warn('AI nhân vật chưa bật: cần cấu hình OPENAI_API_KEY trên Render. Đang dùng hội thoại dự phòng.');
 let saveQueue=Promise.resolve();
 function snapshot(){return JSON.stringify([...rooms.values()].map(r=>{const {timer,...data}=r;return {...data,players:r.players.map(p=>({...p,socketId:null,online:false}))}}))}
 function persist(){if(!persistenceEnabled)return;const payload=snapshot();saveQueue=saveQueue.catch(()=>{}).then(async()=>{const response=await fetch(redisUrl+'/set/'+encodeURIComponent(persistenceKey),{method:'POST',headers:{Authorization:'Bearer '+redisToken,'Content-Type':'text/plain'},body:payload});if(!response.ok)throw Error('Redis snapshot failed: '+response.status)}).catch(e=>console.error('Lưu phòng thất bại:',e.message));}
@@ -93,21 +97,60 @@ function botSay(r,p,message){
  r.messages.push({id:randomUUID(),type:'chat',scope:'all',name:p.name,playerId:p.id,message,time:Date.now()});
  r.messages=r.messages.slice(-100);emit(r);
 }
+async function askBotAI(r,p){
+ if(!aiEnabled)return null;
+ const alive=living(r);
+ const knownWolves=p.role==='wolf'?r.players.filter(x=>x.role==='wolf').map(x=>x.name):p.botKnownWolves||[];
+ let roleSecret='Bạn là Dân làng. Hãy dựa trên lời nói và diễn biến để tìm Sói.';
+ if(p.role==='wolf')roleSecret='Bạn thuộc phe Sói. Đồng đội Sói còn sống: '+r.players.filter(x=>x.role==='wolf'&&x.id!==p.id&&x.alive).map(x=>x.name).join(', ')+'. Hãy phối hợp kín đáo, tránh lộ thông tin.';
+ else if(p.role==='seer')roleSecret='Bạn là Tiên tri. Những người bạn đã xác minh là Sói: '+knownWolves.map(id=>{const x=find(r,id);return x?x.name:''}).filter(Boolean).join(', ')+'. Chỉ được khẳng định điều đã soi thấy.';
+ else if(p.role==='witch')roleSecret='Bạn là Phù thủy. Hãy suy luận từ diễn biến công khai, không giả vờ biết kết quả soi.';
+ else if(p.role==='guard')roleSecret='Bạn là Bảo vệ. Hãy suy luận ai có thể là mục tiêu Sói, nhưng không tiết lộ kỹ năng bí mật.';
+ else if(p.role==='hunter')roleSecret='Bạn là Thợ săn. Hãy quan sát người đáng nghi và giữ kín mục tiêu dự phòng.';
+ else if(p.role==='cupid')roleSecret='Bạn là Cupid. Có thể cân nhắc bảo vệ người mình ghép đôi, nhưng không tự tiết lộ bí mật nếu bất lợi.';
+ else if(p.role==='hypnotist')roleSecret='Bạn thuộc phe Thôi miên. Hãy tìm cách đạt mục tiêu của phe mình mà không để lộ thân phận.';
+ else if(p.role==='fool')roleSecret='Bạn là Thằng ngố. Mục tiêu riêng là khiến dân làng nghi ngờ và bỏ phiếu loại bạn, nhưng đừng quá lộ liễu.';
+ const transcript=r.messages.filter(m=>m.type==='chat'||m.type==='system').slice(-18).map(m=>(m.type==='system'?'[Hệ thống]':m.name+': ')+m.message).join('\n');
+ const roster=alive.map(x=>({id:x.id,name:x.name,alive:true}));
+ const prompt='Bạn đang nhập vai người chơi "'+p.name+'" trong một ván Ma Sói tiếng Việt. Hãy nói tự nhiên, hài hước vừa phải, dí dỏm nhưng biết tranh luận và lập chiến thuật. Không được nói như chatbot hay nhắc đến AI.\n'+
+ 'Vai trò bí mật: '+(ROLES[p.role]||p.role)+'. '+roleSecret+'\n'+
+ 'Ghi nhớ riêng từ các vòng trước: '+(p.botMemory||'Chưa có.')+'\nDiễn biến công khai gần đây:\n'+(transcript||'Chưa có lời thoại.')+'\n'+
+ 'Người còn sống (chỉ chọn voteTargetId trong danh sách): '+JSON.stringify(roster)+'\n'+
+ 'Viết 1-3 câu ngắn để phát biểu; có thể phản bác, hỏi xoáy, đùa nhẹ hoặc đưa ra suy luận; tránh lặp câu cũ. Không tiết lộ vai trò thật trừ khi có lý do chiến thuật. Chọn mục tiêu bỏ phiếu dựa trên thông tin thực sự biết. Cập nhật ghi nhớ riêng ngắn gọn.\n'+
+ 'Chỉ trả JSON hợp lệ: {"message":"...","memory":"...","voteTargetId":"ID hoặc chuỗi rỗng"}. Không thêm markdown.';
+ try{
+  const response=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+openAiKey,'Content-Type':'application/json'},body:JSON.stringify({model:openAiModel,temperature:0.85,max_tokens:260,messages:[{role:'system',content:'Bạn là người chơi Ma Sói nhập vai bằng tiếng Việt. Tuân thủ thông tin riêng của nhân vật. Chỉ xuất JSON hợp lệ.'},{role:'user',content:prompt}]}),signal:AbortSignal.timeout(9000)});
+  if(!response.ok)throw Error('OpenAI API '+response.status);
+  const data=await response.json();
+  const parsed=JSON.parse(String(data.choices?.[0]?.message?.content||'').trim());
+  const message=clean(parsed.message,320);
+  if(!message)return null;
+  p.botMemory=clean(parsed.memory,900);
+  const chosen=alive.find(x=>x.id===parsed.voteTargetId&&x.id!==p.id&&!(p.role==='wolf'&&isWolf(x)));
+  p.botNextVote=chosen?chosen.id:null;
+  return message;
+ }catch(e){console.warn('AI nhân vật tạm thời không phản hồi:',e.message);return null}
+}
+function fallbackBotLine(r,p){
+ const known=(p.botKnownWolves||[]).map(id=>find(r,id)).filter(x=>x&&x.alive);
+ const candidates=living(r).filter(x=>x.id!==p.id&&!(p.role==='wolf'&&isWolf(x)));
+ const target=known[0]||randomBotCandidate(candidates);
+ const lines=[
+  target?'Tôi muốn nghe '+target.name+' giải thích. Có vài điểm tôi thấy chưa khớp.':'Mọi người bình tĩnh, mình tổng hợp manh mối đã nhé.',
+  target?target.name+' đang khiến tôi hơi lăn tăn. Nhưng tôi vẫn chừa đường lui nếu có bằng chứng mới.':'Tôi chưa chốt ai cả. Đừng biến cuộc họp thành cuộc thi đoán mò nhé!',
+  target?'Tôi nghi '+target.name+' ở mức cần theo dõi. Ai có dữ kiện phản biện không?':'Tôi đang ráp các sự kiện lại, chưa muốn kết luận vội.'
+ ];
+ return lines[Math.floor(Math.random()*lines.length)];
+}
 function queueBotDiscussion(r){
  if(!hasBots(r))return;
  const day=r.day,bots=shuffle(living(r).filter(p=>p.isBot)).slice(0,3);
- bots.forEach((p,i)=>setTimeout(()=>{
+ bots.forEach((p,i)=>setTimeout(async()=>{
   if(rooms.get(r.code)!==r||r.phase!=='discussion'||r.day!==day||!p.alive)return;
-  const known=(p.botKnownWolves||[]).map(id=>find(r,id)).filter(x=>x?.alive);
-  const candidates=living(r).filter(x=>x.id!==p.id&&!(p.role==='wolf'&&isWolf(x)));
-  const target=known[0]||randomBotCandidate(candidates);
-  let message;
-  if(p.role==='seer'&&known.length)message='Tôi có manh mối từ đêm trước. Mọi người hãy chú ý '+known[0].name+'.';
-  else if(p.role==='wolf'&&target)message='Tôi thấy '+target.name+' có điều gì đó chưa rõ ràng. Mọi người nghĩ sao?';
-  else if(target)message=['Tôi muốn nghe '+target.name+' giải thích thêm.','Mọi người đừng vội tin lời khai, hãy quan sát kỹ nhé.','Tôi đang nghi ngờ '+target.name+', nhưng chưa dám chắc.'][Math.floor(Math.random()*3)];
-  else message='Mọi người hãy bình tĩnh phân tích trước khi bỏ phiếu.';
+  const message=await askBotAI(r,p)||fallbackBotLine(r,p);
+  if(rooms.get(r.code)!==r||r.phase!=='discussion'||r.day!==day||!p.alive)return;
   botSay(r,p,message);
- },1800+i*5200));
+ },1800+i*6500));
 }
 function runBotNight(r,role){
  if(!hasBots(r))return;
@@ -141,7 +184,7 @@ function runBotNight(r,role){
 function runBotVotes(r){
  if(!hasBots(r))return;
  for(const p of living(r).filter(p=>p.isBot)){
-  const target=botVoteTarget(r,p);if(target){r.votes[p.id]=target.id;p.botLastVote=target.id}
+  const strategic=find(r,p.botNextVote);const target=strategic&&strategic.alive&&strategic.id!==p.id&&!(p.role==='wolf'&&isWolf(strategic))?strategic:botVoteTarget(r,p);p.botNextVote=null;if(target){r.votes[p.id]=target.id;p.botLastVote=target.id}
  }
  emit(r);
 }
@@ -154,7 +197,7 @@ function runBotLynch(r){
  }
  emit(r);
 }
-function startGame(r){r.afterHunter=null;r.drafts={};r.wolfPicks={};r.wolfPickOrder={};r.wolfPickSeq=0;let roles=byCount(r);r.players.forEach((p,i)=>{p.role=roles[i];p.alive=true;p.ready=false;p.lover=null;p.witchHeal=true;p.witchPoison=true;p.privateInfo=null;p.hunterTarget=null;p.hypnotized=false;p.will='';p.lastWillEdit=0;if(p.isBot){p.botKnownWolves=[];p.botLastVote=null}});r.day=0;r.messages=[];r.loveLetters=[];r.lastGuard=null;r.winner=null;system(r,'Trò chơi bắt đầu. Bạn có 10 giây để xem vai trò bí mật của mình.');r.phase='reveal';r.day=0;schedule(r,10,beginFirstNight)}
+function startGame(r){r.afterHunter=null;r.drafts={};r.wolfPicks={};r.wolfPickOrder={};r.wolfPickSeq=0;let roles=byCount(r);r.players.forEach((p,i)=>{p.role=roles[i];p.alive=true;p.ready=false;p.lover=null;p.witchHeal=true;p.witchPoison=true;p.privateInfo=null;p.hunterTarget=null;p.hypnotized=false;p.will='';p.lastWillEdit=0;if(p.isBot){p.botKnownWolves=[];p.botLastVote=null;p.botNextVote=null;p.botMemory='';p.botSeen=[]}});r.day=0;r.messages=[];r.loveLetters=[];r.lastGuard=null;r.winner=null;system(r,'Trò chơi bắt đầu. Bạn có 10 giây để xem vai trò bí mật của mình.');r.phase='reveal';r.day=0;schedule(r,10,beginFirstNight)}
 function ack(cb,obj){if(typeof cb==='function')cb(obj)}
 function error(cb,msg){ack(cb,{ok:false,error:msg})}
 function authenticate(socket,cb){const r=rooms.get(socket.data.code);const p=r&&find(r,socket.data.playerId);if(!r||!p||p.socketId!==socket.id){error(cb,'Phiên kết nối không hợp lệ.');return null}return {r,p}}
