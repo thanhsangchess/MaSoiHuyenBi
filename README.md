@@ -1,6 +1,6 @@
 # Ma Sói Huyền Bí – Mobile-first
 
-Website Ma Sói chơi trực tuyến thời gian thực, tối đa 10 người/phòng, quản trò tự động. Bao gồm 10 màn hình và chế độ xem thử.
+Website Ma Sói chơi trực tuyến thời gian thực, tối đa 12 người/phòng, quản trò tự động. Chế độ đấu với máy gồm 1 người chơi và 11 bot; phòng thường cho phép chủ phòng thêm bot từng người. Bao gồm 10 màn hình và chế độ xem thử.
 
 ## Chạy trên máy tính
 
@@ -29,8 +29,10 @@ Cho điện thoại và máy tính cùng mạng Wi-Fi, tìm IP nội bộ của 
 
 ## Luật hiện tại
 
-- Tối thiểu 5 người để bắt đầu, tối đa 10 người.
-- 1 Sói cho phòng 5–8 người, 2 Sói cho phòng 9–10 người.
+- Tối thiểu 5 người để bắt đầu, tối đa 12 người.
+- Chế độ đấu với máy: 12 người (1 người chơi và 11 bot).
+- Phòng thường: chủ phòng có thể thêm từng bot trong phòng chờ; mỗi bot chiếm một chỗ và tự động sẵn sàng.
+- 1 Sói cho phòng 5–6 người, 2 Sói cho phòng 7–9 người, 3 Sói cho phòng 10–12 người.
 - Vai trò đặc biệt được phân ngẫu nhiên: Tiên tri, Phù thủy, Bảo vệ, Thợ săn, Cupid; số vai đặc biệt được cắt bớt ở phòng nhỏ.
 - Cupid ghép đôi hai người khác mình trong đêm đầu; một người bị loại thì người kia cũng bị loại.
 - Sói bỏ phiếu chọn mục tiêu trong đêm; hòa phiếu được chọn ngẫu nhiên.
