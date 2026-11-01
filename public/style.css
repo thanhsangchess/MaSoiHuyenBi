@@ -1031,3 +1031,12 @@ body.in-game .village-screen .village-grid>.player .wolf-pick-mark{
 .love-floating .composer{display:flex!important;gap:5px!important;flex:0 0 auto!important}
 .love-floating .composer input{box-sizing:border-box!important;min-width:0!important;flex:1 1 auto!important;background:#fff!important;color:#1d2434!important}
 .love-floating .composer button{flex:0 0 auto!important}
+
+
+/* Three compact game tabs after moving will editing into the player-frame notebook. */
+.game-tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+
+/* Keep each player's will notebook centered on the right edge of their frame. */
+body.in-game .village-screen .village-grid>.player .will-book-btn{
+  top:50%!important;right:3px!important;left:auto!important;transform:translateY(-50%)!important;
+}
