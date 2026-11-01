@@ -30,7 +30,7 @@ const clean=(s,n=30)=>String(s??'').trim().slice(0,n).replace(/[<>]/g,'');
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a};
 const living=r=>r.players.filter(p=>p.alive);
 const find=(r,id)=>r.players.find(p=>p.id===id);
-const isWolf=p=>p?.role==='wolf';
+const isWolf=p=>p?.role==='wolf';const hasBots=r=>r.players.some(p=>p.isBot);
 const ROLE_PLANS={
 5:{wolf:1,guard:1,fool:1,seer:1,cupid:1},
 6:{wolf:1,guard:1,fool:1,hunter:1,seer:1,cupid:1},
@@ -94,7 +94,7 @@ function botSay(r,p,message){
  r.messages=r.messages.slice(-100);emit(r);
 }
 function queueBotDiscussion(r){
- if(!r.botMode)return;
+ if(!hasBots(r))return;
  const day=r.day,bots=shuffle(living(r).filter(p=>p.isBot)).slice(0,3);
  bots.forEach((p,i)=>setTimeout(()=>{
   if(rooms.get(r.code)!==r||r.phase!=='discussion'||r.day!==day||!p.alive)return;
@@ -110,7 +110,7 @@ function queueBotDiscussion(r){
  },1800+i*5200));
 }
 function runBotNight(r,role){
- if(!r.botMode)return;
+ if(!hasBots(r))return;
  const actors=living(r).filter(p=>p.isBot&&p.role===role);
  for(const p of actors){
   const allowed=targets(r,p).map(x=>x.id);let action={player:p.id,kind:role};
@@ -139,14 +139,14 @@ function runBotNight(r,role){
  else emit(r);
 }
 function runBotVotes(r){
- if(!r.botMode)return;
+ if(!hasBots(r))return;
  for(const p of living(r).filter(p=>p.isBot)){
   const target=botVoteTarget(r,p);if(target){r.votes[p.id]=target.id;p.botLastVote=target.id}
  }
  emit(r);
 }
 function runBotLynch(r){
- if(!r.botMode)return;
+ if(!hasBots(r))return;
  const target=find(r,r.lynchTarget);if(!target)return;
  for(const p of living(r).filter(p=>p.isBot&&p.id!==target.id)){
   const knowsWolf=(p.botKnownWolves||[]).includes(target.id);
@@ -158,7 +158,7 @@ function startGame(r){r.afterHunter=null;r.drafts={};r.wolfPicks={};r.wolfPickOr
 function ack(cb,obj){if(typeof cb==='function')cb(obj)}
 function error(cb,msg){ack(cb,{ok:false,error:msg})}
 function authenticate(socket,cb){const r=rooms.get(socket.data.code);const p=r&&find(r,socket.data.playerId);if(!r||!p||p.socketId!==socket.id){error(cb,'Phiên kết nối không hợp lệ.');return null}return {r,p}}
-function cleanup(r){if(!r.players.length||(r.botMode&&!r.players.some(p=>!p.isBot))){clear(r);rooms.delete(r.code);persist();io.emit('room:list-updated')}else{if(!find(r,r.host))r.host=r.players[0].id;emit(r)}}
+function cleanup(r){const humans=r.players.filter(p=>!p.isBot);if(!humans.length){clear(r);rooms.delete(r.code);persist();io.emit('room:list-updated')}else{const currentHost=find(r,r.host);if(!currentHost||currentHost.isBot)r.host=humans[0].id;emit(r)}}
 function expireRoom(r){clear(r);for(const p of r.players){const sock=p.socketId&&io.sockets.sockets.get(p.socketId);if(sock){sock.emit('room:expired',{message:'Phòng chờ đã tự động xóa sau 4 giờ chưa bắt đầu ván.'});sock.leave(r.code);if(sock.data?.code===r.code)sock.data={}}}rooms.delete(r.code)}
 function expireStaleLobbyRooms(){const now=Date.now();let removed=0;for(const r of [...rooms.values()]){if(r.phase!=='lobby')continue;const since=Number(r.lobbySince||r.createdAt);if(Number.isFinite(since)&&since>0&&now-since>=LOBBY_ROOM_TTL){expireRoom(r);removed++}}if(removed){persist();io.emit('room:list-updated');console.log('Đã tự động xóa',removed,'phòng chờ quá 4 giờ chưa bắt đầu.')}return removed}
 io.on('connection',socket=>{
@@ -166,16 +166,28 @@ io.on('connection',socket=>{
  socket.on('room:create',(data={},cb)=>{let name=clean(data.name,24)||'Ngôi Làng Bí Ẩn';let playerName=clean(data.playerName,18)||'Khách';let id=randomUUID();let r={code:code(),name,private:!!data.private,host:id,phase:'lobby',createdAt:Date.now(),lobbySince:Date.now(),day:0,deadline:null,players:[],messages:[],timer:null,settings:{max:12,discussion:Math.min(240,Math.max(30,Number(data.discussion)||DEFAULT.discussion)),vote:DEFAULT.vote,night:DEFAULT.night,specials:SPECIAL},votes:{},actions:{},drafts:{},wolfPicks:{},wolfPickOrder:{},wolfPickSeq:0};while(rooms.has(r.code))r.code=code();let p={id,name:playerName,socketId:socket.id,online:true,ready:false,alive:true,role:null,avatar:'explorer'};r.players.push(p);rooms.set(r.code,r);socket.join(r.code);socket.data={code:r.code,playerId:id};ack(cb,{ok:true,code:r.code,playerId:id});emit(r)});
  socket.on('room:create-bots',(data={},cb)=>{
   let playerName=clean(data.playerName,18)||'Khách',id=randomUUID(),now=Date.now();
-  let r={code:code(),name:'Đấu trường với máy',private:true,botMode:true,host:id,phase:'lobby',createdAt:now,lobbySince:now,day:0,deadline:null,players:[],messages:[],timer:null,settings:{max:8,discussion:Math.min(90,Math.max(30,Number(data.discussion)||45)),vote:30,night:DEFAULT.night,specials:SPECIAL},votes:{},actions:{},drafts:{},wolfPicks:{},wolfPickOrder:{},wolfPickSeq:0};
+  let r={code:code(),name:'Đấu trường với máy',private:true,botMode:true,host:id,phase:'lobby',createdAt:now,lobbySince:now,day:0,deadline:null,players:[],messages:[],timer:null,settings:{max:12,discussion:Math.min(90,Math.max(30,Number(data.discussion)||45)),vote:30,night:DEFAULT.night,specials:SPECIAL},votes:{},actions:{},drafts:{},wolfPicks:{},wolfPickOrder:{},wolfPickSeq:0};
   while(rooms.has(r.code))r.code=code();
   r.players.push({id,name:playerName,socketId:socket.id,online:true,ready:true,alive:true,role:null,avatar:'explorer',isBot:false});
-  const botNames=shuffle(['An','Bình','Chi','Dũng','Hà','Khoa','Linh']);
+  const botNames=shuffle(['An','Bình','Chi','Dũng','Hà','Khoa','Linh','Minh','Nam','Phúc','Quân']);
   botNames.forEach((name,i)=>r.players.push({id:randomUUID(),name,socketId:null,online:true,ready:true,alive:true,role:null,avatar:AVATARS[i%AVATARS.length],isBot:true}));
   rooms.set(r.code,r);socket.join(r.code);socket.data={code:r.code,playerId:id};ack(cb,{ok:true,code:r.code,playerId:id});startGame(r);
  });
  socket.on('room:join',(data={},cb)=>{expireStaleLobbyRooms();let r=rooms.get(clean(data.code,8).toUpperCase());if(!r)return error(cb,'Không tìm thấy phòng.');if(r.phase!=='lobby')return error(cb,'Ván đã bắt đầu.');if(r.players.length>=r.settings.max)return error(cb,'Phòng đã đủ người.');let name=clean(data.playerName,18)||'Khách',id=randomUUID(),p={id,name,socketId:socket.id,online:true,ready:false,alive:true,role:null};r.players.push(p);socket.join(r.code);socket.data={code:r.code,playerId:id};system(r,`${name} đã vào phòng.`);ack(cb,{ok:true,code:r.code,playerId:id});emit(r)});
  socket.on('room:resume',(data={},cb)=>{expireStaleLobbyRooms();let r=rooms.get(clean(data.code,8).toUpperCase()),p=r&&find(r,data.playerId);if(!p)return error(cb,'Phiên chơi không còn tồn tại.');if(p.online&&p.socketId!==socket.id)return error(cb,'Người chơi đang kết nối trên thiết bị khác.');p.socketId=socket.id;p.online=true;socket.join(r.code);socket.data={code:r.code,playerId:p.id};ack(cb,{ok:true});unpauseRoom(r);emit(r)});
  socket.on('room:kick',(data={},cb)=>{let x=authenticate(socket,cb);if(!x)return;let {r,p}=x;if(r.phase!=='lobby')return error(cb,'Chỉ được mời ra khỏi phòng khi đang chờ.');if(r.host!==p.id)return error(cb,'Chỉ chủ phòng được mời người chơi ra ngoài.');let target=find(r,data.playerId);if(!target||target.id===r.host)return error(cb,'Không thể chọn người chơi này.');const targetSocket=target.socketId?io.sockets.sockets.get(target.socketId):null;if(targetSocket){targetSocket.emit('room:kicked',{message:'Chủ phòng đã mời bạn ra khỏi phòng.'});targetSocket.leave(r.code);targetSocket.data={};}r.players=r.players.filter(q=>q.id!==target.id);system(r,`${target.name} đã được chủ phòng mời ra khỏi phòng.`);ack(cb,{ok:true});cleanup(r)});
+ socket.on('room:add-bot',(_,cb)=>{
+  const x=authenticate(socket,cb);if(!x)return;
+  const {r,p}=x;
+  if(r.phase!=='lobby')return error(cb,'Chỉ thêm máy khi phòng đang chờ.');
+  if(r.botMode)return error(cb,'Chế độ đấu với máy đã tự bố trí đối thủ.');
+  if(r.host!==p.id)return error(cb,'Chỉ chủ phòng mới được thêm máy.');
+  if(r.players.length>=r.settings.max)return error(cb,`Phòng đã đủ ${r.settings.max} người.`);
+  let botNumber=1;while(r.players.some(q=>q.name===`Máy ${botNumber}`))botNumber++;
+  const bot={id:randomUUID(),name:`Máy ${botNumber}`,socketId:null,online:true,ready:true,alive:true,role:null,avatar:AVATARS[(botNumber-1)%AVATARS.length],isBot:true};
+  r.players.push(bot);system(r,`🤖 ${bot.name} đã tham gia phòng và sẵn sàng.`);
+  ack(cb,{ok:true,name:bot.name,playerCount:r.players.length});emit(r);
+ });
  socket.on('room:avatar',(data={},cb)=>{let x=authenticate(socket,cb);if(!x)return;if(x.r.phase!=='lobby')return error(cb,'Chỉ được đổi nhân vật trong phòng chờ.');if(!AVATARS.includes(data.avatar))return error(cb,'Nhân vật không hợp lệ.');x.p.avatar=data.avatar;ack(cb,{ok:true});emit(x.r)});
  socket.on('room:ready',(value,cb)=>{let x=authenticate(socket,cb);if(!x)return;if(x.r.phase!=='lobby')return error(cb,'Ván đã bắt đầu.');x.p.ready=!!value;ack(cb,{ok:true});emit(x.r)});
  socket.on('room:start',(_,cb)=>{expireStaleLobbyRooms();let x=authenticate(socket,cb);if(!x)return;let {r,p}=x;if(r.host!==p.id)return error(cb,'Chỉ chủ phòng được bắt đầu.');if(r.phase!=='lobby')return error(cb,'Ván đã bắt đầu.');if(r.players.length<5)return error(cb,'Cần tối thiểu 5 người chơi.');if(r.players.some(p=>!p.ready&&p.id!==r.host))return error(cb,'Có người chưa sẵn sàng.');startGame(r);ack(cb,{ok:true})});
