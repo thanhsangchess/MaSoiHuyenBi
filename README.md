@@ -2,6 +2,17 @@
 
 Website Ma Sói chơi trực tuyến thời gian thực, tối đa 12 người/phòng, quản trò tự động. Chế độ đấu với máy gồm 1 người chơi và 11 bot; phòng thường cho phép chủ phòng thêm bot từng người. Bao gồm 10 màn hình và chế độ xem thử.
 
+## AI nhân vật trong chế độ Đấu trường với máy
+
+Chế độ đấu với máy hỗ trợ hội thoại AI có cá tính, suy luận theo diễn biến công khai, ghi nhớ riêng qua các vòng và đề xuất mục tiêu bỏ phiếu. AI chỉ hoạt động ở máy chủ; API Key không được đưa vào mã JavaScript phía trình duyệt.
+
+Để bật AI trên Render, vào **Dashboard → dịch vụ MaSoiHuyenBi → Environment** và thêm:
+
+- `OPENAI_API_KEY`: API Key của tài khoản OpenAI.
+- `OPENAI_MODEL` (không bắt buộc): tên model chat tương thích; mặc định là `gpt-4o-mini`.
+
+Lưu thay đổi để Render khởi động lại dịch vụ. Nếu chưa có `OPENAI_API_KEY`, trò chơi vẫn hoạt động bằng hội thoại dự phòng, không gọi API. AI tạo lời thoại cho tối đa 3 máy mỗi lượt thảo luận; lựa chọn bỏ phiếu AI của các máy đã phát biểu được dùng ở vòng bỏ phiếu. Nếu API lỗi hoặc hết thời gian chờ, máy tự chuyển sang lời thoại và chiến thuật dự phòng để ván chơi không bị gián đoạn.
+
 ## Chạy trên máy tính
 
 Yêu cầu Node.js 20+.
