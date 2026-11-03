@@ -1071,3 +1071,10 @@ body.in-game .village-screen.village-acting>.game-tab-body .role-action-panel.ro
 body.in-game .village-screen.village-acting>.game-tab-body .role-action-panel.role-wolf .role-picked-empty{padding:7px!important;font-size:10px!important}
 body.in-game .village-screen.village-acting>.game-tab-body .role-action-panel.role-wolf .role-confirm{align-self:center!important;min-width:125px!important;min-height:32px!important;padding:6px 12px!important;font-size:12px!important}
 body.in-game .village-screen.village-acting>.game-tab-body .role-action-panel.role-wolf .role-action-note{font-size:9px!important;text-align:center!important;margin:0!important}
+
+/* Compact in-game sound controls */
+.sound-panel{position:fixed;z-index:120;right:10px;top:10px;display:flex;align-items:center;gap:8px;padding:6px 9px;border:1px solid #ffffff35;border-radius:12px;background:#10182bef;color:#fff;box-shadow:0 4px 16px #0005;font-size:11px}
+.sound-panel .sound-toggle{border:0;border-radius:8px;background:#263754;color:#fff;padding:7px 9px;font:inherit;font-weight:800;cursor:pointer;white-space:nowrap}
+.sound-panel label{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.sound-panel input{width:76px;min-height:18px;accent-color:#d6ad61}
+@media(max-width:520px){.sound-panel{top:6px;right:6px;gap:5px;padding:4px 6px;font-size:10px}.sound-panel .sound-toggle{padding:6px 7px}.sound-panel input{width:58px}}
