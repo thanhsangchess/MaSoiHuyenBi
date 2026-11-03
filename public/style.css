@@ -1078,3 +1078,6 @@ body.in-game .village-screen.village-acting>.game-tab-body .role-action-panel.ro
 .sound-panel label{display:flex;align-items:center;gap:5px;white-space:nowrap}
 .sound-panel input{width:76px;min-height:18px;accent-color:#d6ad61}
 @media(max-width:520px){.sound-panel{top:6px;right:6px;gap:5px;padding:4px 6px;font-size:10px}.sound-panel .sound-toggle{padding:6px 7px}.sound-panel input{width:58px}}
+
+/* Hide the in-game sound control overlay while keeping automatic audio behavior. */
+.sound-panel{display:none!important}
