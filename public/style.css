@@ -1165,3 +1165,36 @@ body.in-game .village-screen .village-grid>.player .death-mark.death-noose .noos
     width:32px!important;height:47px!important;
   }
 }
+
+
+/* Preserve eliminated players' portraits at a very faint level instead of an X. */
+body.in-game .village-screen .village-grid>.player.eliminated .avatar.dead{
+  opacity:1!important;
+  filter:none!important;
+  background:transparent!important;
+  border:1px solid #cbd3dc!important;
+  box-shadow:none!important;
+}
+body.in-game .village-screen .village-grid>.player.eliminated .avatar.dead .character-portrait{
+  opacity:.12!important;
+  filter:grayscale(1) brightness(.55)!important;
+}
+body.in-game .village-screen .village-grid>.player.eliminated .avatar.dead .character-fallback{
+  opacity:.12!important;
+  filter:grayscale(1)!important;
+}
+
+/* Make the hanging cloth larger and easier to recognize on each player card. */
+body.in-game .village-screen .village-grid>.player .death-mark.death-noose{
+  width:48px!important;height:70px!important;
+  z-index:36!important;
+}
+body.in-game .village-screen .village-grid>.player .death-mark.death-noose .noose-art{
+  width:100%!important;height:100%!important;
+  object-fit:contain!important;
+}
+@media(max-width:380px){
+  body.in-game .village-screen .village-grid>.player .death-mark.death-noose{
+    width:44px!important;height:64px!important;
+  }
+}
