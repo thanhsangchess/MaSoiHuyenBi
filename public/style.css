@@ -1081,3 +1081,26 @@ body.in-game .village-screen.village-acting>.game-tab-body .role-action-panel.ro
 
 /* Hide the in-game sound control overlay while keeping automatic audio behavior. */
 .sound-panel{display:none!important}
+
+
+/* Make every visible will notebook unmistakably golden, including eliminated players. */
+body.in-game .village-screen .village-grid>.player .will-book-btn{
+  background:linear-gradient(145deg,#ffe985 0%,#ffc928 55%,#f0a900 100%)!important;
+  border:2px solid #fff1a8!important;
+  color:#402900!important;
+  border-radius:7px!important;
+  box-shadow:0 0 0 1px #a86b00,0 2px 5px #3c270099,0 0 10px #ffd43b!important;
+  text-shadow:0 1px 0 #fff8!important;
+}
+body.in-game .village-screen .village-grid>.player .will-book-btn.has-will{
+  background:linear-gradient(145deg,#fff4a8 0%,#ffd83d 52%,#f5b400 100%)!important;
+  border-color:#fff8c9!important;
+  color:#382300!important;
+  box-shadow:0 0 0 1px #9c6500,0 2px 6px #3c2700aa,0 0 12px #ffdf48!important;
+}
+body.in-game .village-screen .village-grid>.player.eliminated .will-book-btn{
+  background:linear-gradient(145deg,#fff0a0 0%,#ffd12e 55%,#efa600 100%)!important;
+  border:2px solid #fff5bf!important;
+  color:#382300!important;
+  box-shadow:0 0 0 1px #8c5b00,0 2px 6px #302000bb,0 0 13px #ffdb42!important;
+}
