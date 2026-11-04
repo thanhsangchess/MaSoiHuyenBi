@@ -1129,3 +1129,21 @@ body.in-game .village-screen .village-grid>.player.eliminated .will-book-btn{
   color:#382300!important;
   box-shadow:0 0 0 1px #8c5b00,0 2px 6px #302000bb,0 0 13px #ffdb42!important;
 }
+
+
+/* Replace the old text slashes with the uploaded red three-claw artwork. */
+body.in-game .village-screen .village-grid>.player .death-mark.death-claw{
+  width:78px!important;height:55px!important;min-width:0!important;min-height:0!important;
+  padding:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+  filter:drop-shadow(0 2px 3px #0009)!important;overflow:visible!important;
+}
+body.in-game .village-screen .village-grid>.player .death-mark.death-claw .claw-art{
+  display:block!important;width:100%!important;height:100%!important;
+  overflow:visible!important;fill:#ed001b!important;
+}
+@media(max-width:380px){
+  body.in-game .village-screen .village-grid>.player .death-mark.death-claw{
+    width:68px!important;height:48px!important;
+  }
+}
