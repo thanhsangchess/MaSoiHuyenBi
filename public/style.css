@@ -1104,3 +1104,28 @@ body.in-game .village-screen .village-grid>.player.eliminated .will-book-btn{
   color:#382300!important;
   box-shadow:0 0 0 1px #8c5b00,0 2px 6px #302000bb,0 0 13px #ffdb42!important;
 }
+
+
+/* Do not fade the entire eliminated card: keep its will notebook vivid gold. */
+body.in-game .village-screen .village-grid>.player.eliminated{
+  opacity:1!important;
+  filter:none!important;
+  background:#c8d0d8!important;
+  border-color:#e4e8ed!important;
+}
+body.in-game .village-screen .village-grid>.player.eliminated .avatar,
+body.in-game .village-screen .village-grid>.player.eliminated .player-visible-name,
+body.in-game .village-screen .village-grid>.player.eliminated>small,
+body.in-game .village-screen .village-grid>.player.eliminated>.player-number{
+  opacity:.58!important;
+  filter:saturate(.45)!important;
+}
+body.in-game .village-screen .village-grid>.player.eliminated .will-book-btn{
+  opacity:1!important;
+  filter:none!important;
+  z-index:40!important;
+  background:linear-gradient(145deg,#fff0a0 0%,#ffd12e 55%,#efa600 100%)!important;
+  border:2px solid #fff5bf!important;
+  color:#382300!important;
+  box-shadow:0 0 0 1px #8c5b00,0 2px 6px #302000bb,0 0 13px #ffdb42!important;
+}
