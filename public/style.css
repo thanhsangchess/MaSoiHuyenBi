@@ -1147,3 +1147,21 @@ body.in-game .village-screen .village-grid>.player .death-mark.death-claw .claw-
     width:68px!important;height:48px!important;
   }
 }
+
+
+/* The village hanging uses the supplied golden rope artwork, not an emoji badge. */
+body.in-game .village-screen .village-grid>.player .death-mark.death-noose{
+  width:36px!important;height:52px!important;min-width:0!important;min-height:0!important;
+  padding:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+  filter:drop-shadow(0 2px 3px #0009)!important;overflow:visible!important;
+}
+body.in-game .village-screen .village-grid>.player .death-mark.death-noose .noose-art{
+  display:block!important;width:100%!important;height:100%!important;
+  object-fit:contain!important;object-position:center!important;
+}
+@media(max-width:380px){
+  body.in-game .village-screen .village-grid>.player .death-mark.death-noose{
+    width:32px!important;height:47px!important;
+  }
+}
