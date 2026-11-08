@@ -1,0 +1,146 @@
+/* Premium UI polish layer
+   Visual-only enhancements. Existing markup, gameplay, dimensions and responsive layout stay intact. */
+:root{
+  --premium-gold:#f6d28d;
+  --premium-gold-soft:#ffe7b8;
+  --premium-lilac:#b9a2f4;
+  --premium-line:rgba(204,190,255,.18);
+  --premium-shadow:0 12px 30px rgba(3,7,20,.24);
+  --premium-ease:cubic-bezier(.2,.78,.22,1);
+}
+html{scroll-behavior:smooth}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button:not(:disabled),.player.vote-target,.will-book-btn{
+  transition:filter .18s var(--premium-ease),box-shadow .22s var(--premium-ease),border-color .18s var(--premium-ease),background-color .18s var(--premium-ease),transform .18s var(--premium-ease)
+}
+button:focus-visible,[role="button"]:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--premium-gold-soft);
+  outline-offset:3px;
+}
+.btn:not(:disabled){box-shadow:0 5px 14px rgba(4,7,20,.28),inset 0 1px 0 rgba(255,255,255,.14)}
+.iconbtn{box-shadow:0 4px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.06)}
+.app>.top .badge{
+  border:1px solid rgba(210,195,255,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 4px 12px rgba(0,0,0,.12);
+}
+body:not(.in-game) .app .panel:not(.result-card){
+  border-color:rgba(174,166,222,.23);
+  box-shadow:var(--premium-shadow),inset 0 1px 0 rgba(255,255,255,.045);
+  backdrop-filter:blur(10px);
+}
+body:not(.in-game) .app .panel h3{
+  letter-spacing:.012em;
+  text-shadow:0 1px 12px rgba(246,210,141,.10);
+}
+.app .field label{font-weight:650;letter-spacing:.015em}
+.app input:not([type="checkbox"]),.app select,.app textarea{
+  transition:border-color .18s var(--premium-ease),box-shadow .18s var(--premium-ease),background-color .18s var(--premium-ease);
+}
+.app input::placeholder,.app textarea::placeholder{color:#8f9bb8;opacity:.82}
+.app input:focus,.app select:focus,.app textarea:focus{
+  border-color:#b49af0;
+  box-shadow:0 0 0 3px rgba(136,98,230,.20),0 5px 16px rgba(4,8,24,.16);
+}
+.home-hero{
+  border-color:rgba(194,174,255,.58);
+  box-shadow:inset 0 0 65px rgba(10,12,36,.66),0 16px 34px rgba(2,5,18,.28);
+}
+.home-hero::before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  z-index:0;
+  border:1px solid rgba(255,235,194,.18);
+  border-radius:19px;
+  pointer-events:none;
+}
+.home-primary,.home-ai-button,.home-shortcuts button{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-radius:17px;
+  box-shadow:0 8px 20px rgba(4,7,20,.25),inset 0 1px 0 rgba(255,255,255,.16);
+}
+.home-primary>*{position:relative;z-index:1}
+.home-shortcuts button{border-color:rgba(190,172,255,.48)}
+.home-info{box-shadow:0 8px 22px rgba(2,6,19,.18),inset 0 1px 0 rgba(255,255,255,.045)}
+.home-features span{border:1px solid rgba(210,194,255,.12)}
+.dock{
+  border-top-color:rgba(190,180,236,.28);
+  box-shadow:0 -12px 28px rgba(2,6,18,.24),inset 0 1px 0 rgba(255,255,255,.035);
+}
+.dock button{transition:color .18s ease,transform .18s ease}
+.dock button:active{transform:translateY(1px)}
+.app-room:has(.lobby-tabs)>.lobby-tabs button{
+  border-radius:10px;
+  font-weight:750;
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+.app-room:has(.lobby-tabs)>.lobby-tabs button.active{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(5,7,23,.22);
+}
+.app-room .lobby-content .player{
+  border-color:rgba(177,171,220,.30);
+  box-shadow:0 4px 12px rgba(3,7,20,.15),inset 0 1px 0 rgba(255,255,255,.055);
+}
+.app-room .lobby-content .player.me{
+  border-color:rgba(226,199,255,.72);
+  box-shadow:0 0 0 1px rgba(194,161,255,.14),0 5px 15px rgba(3,7,20,.22);
+}
+.village-screen .village-phase{
+  box-shadow:0 5px 14px rgba(4,8,22,.12),inset 0 1px 0 rgba(255,255,255,.18);
+}
+.village-screen .game-tabs button{
+  font-weight:800;
+  letter-spacing:.01em;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.village-screen .game-tabs button.active{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 4px 12px rgba(6,10,28,.22);
+}
+.village-screen .game-tab-body{
+  scrollbar-color:rgba(168,151,216,.55) transparent;
+  scrollbar-width:thin;
+}
+.village-screen .game-tab-body::-webkit-scrollbar,.chat::-webkit-scrollbar,.love-log::-webkit-scrollbar{
+  width:6px;height:6px;
+}
+.village-screen .game-tab-body::-webkit-scrollbar-thumb,.chat::-webkit-scrollbar-thumb,.love-log::-webkit-scrollbar-thumb{
+  background:rgba(168,151,216,.45);
+  border-radius:99px;
+}
+.village-screen .game-tab-body::-webkit-scrollbar-track,.chat::-webkit-scrollbar-track,.love-log::-webkit-scrollbar-track{
+  background:transparent;
+}
+.chat,.love-log{scrollbar-width:thin;scrollbar-color:rgba(168,151,216,.5) transparent}
+#toast{box-shadow:0 12px 30px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(12px)}
+@media(hover:hover){
+  .btn:not(:disabled):hover,.iconbtn:not(:disabled):hover{filter:brightness(1.08);box-shadow:0 8px 20px rgba(3,6,19,.28),inset 0 1px 0 rgba(255,255,255,.16)}
+  .home-primary:hover,.home-ai-button:hover,.home-shortcuts button:hover{filter:brightness(1.07);transform:translateY(-2px);box-shadow:0 12px 26px rgba(3,6,20,.30),inset 0 1px 0 rgba(255,255,255,.20)}
+  .app-room:has(.lobby-tabs)>.lobby-tabs button:hover,.village-screen .game-tabs button:hover{filter:brightness(1.12)}
+  .player.vote-target:hover{filter:brightness(1.08);border-color:rgba(255,224,164,.8)}
+}
+@media(prefers-reduced-motion:no-preference){
+  .home-moon{animation:premium-moon-drift 8s ease-in-out infinite}
+  @keyframes premium-moon-drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .home-primary::after{
+    content:"";
+    position:absolute;
+    z-index:0;
+    top:-65%;bottom:-65%;left:-42%;width:24%;
+    transform:rotate(22deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.26),transparent);
+    animation:premium-button-sheen 7.5s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes premium-button-sheen{
+    0%,62%{left:-42%;opacity:0}
+    68%{opacity:.85}
+    84%,100%{left:125%;opacity:0}
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  button:not(:disabled),.player.vote-target,.will-book-btn,.dock button{transition:none!important}
+}
