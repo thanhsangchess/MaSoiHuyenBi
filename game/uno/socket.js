@@ -441,6 +441,7 @@ export function attachUnoNamespace(io) {
       const offender = room.players.find(item => item.id === challenge.offenderId);
       if (challenge.hadMatchingColor) {
         if (offender) drawForPenalty(room, offender, 4);
+        room.pendingUno = null;
         room.currentPlayerId = player.id;
         room.turnDrawnCardId = null;
         addMessage(room, player.name + ' thách thức thành công. Người đánh +4 phải rút 4 lá.');
