@@ -110,7 +110,7 @@ socket.on('connect',async()=>{const saved=JSON.parse(localStorage.getItem('wolf_
 socket.on('room:kicked',data=>{clearSession();toast(data?.message||'Bạn đã được mời ra khỏi phòng.');});socket.on('room:expired',data=>{clearSession();toast(data?.message||'Phòng chờ đã hết hạn và được tự động xóa.');});
 socket.on('disconnect',()=>{toast('Mất kết nối. Đang thử kết nối lại...');render()});
 unoSocket.on('connect',async()=>{let saved=null;try{saved=JSON.parse(localStorage.getItem('uno_session')||'null')}catch{localStorage.removeItem('uno_session')}if(saved){const result=await unoRpc('uno:room:resume',saved);if(!result.ok){localStorage.removeItem('uno_session');unoState.room=null;if(result.error!=='Không tìm thấy phiên UNO để khôi phục.')toast(result.error);}}if(state.screen==='unoHub')loadUnoRooms()});
-unoSocket.on('uno:state',room=>{unoState.room=room;unoState.pendingWild=null;if(!state.room){state.screen='unoHub';render()}});
+unoSocket.on('uno:state',room=>{const pendingWild=unoState.pendingWild;unoState.room=room;unoState.pendingWild=pendingWild&&room.hand.some(card=>card.id===pendingWild)?pendingWild:null;if(!state.room){state.screen='unoHub';render()}});
 unoSocket.on('uno:rooms-updated',()=>{if(state.screen==='unoHub'&&!unoState.room)loadUnoRooms()});
 unoSocket.on('uno:session:replaced',()=>{localStorage.removeItem('uno_session');unoState.room=null;toast('Phiên UNO đã được mở ở kết nối khác.');render()});
 unoSocket.on('disconnect',()=>{if(unoState.room)toast('Mất kết nối UNO. Đang thử kết nối lại...')});
