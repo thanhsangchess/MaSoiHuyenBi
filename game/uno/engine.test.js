@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   UNO_COLORS, createDeck, startRound, isPlayable,
-  drawCards, nextPlayerId, advanceTurn
+  drawCards, nextPlayerId, advanceTurn, buildPlayerView
 } from './engine.js';
 
 test('Bộ bài UNO cổ điển có đúng 108 lá và đủ phân bố', () => {
@@ -48,7 +48,7 @@ test('Khi hết chồng bài rút, xáo lại bài đã đánh nhưng giữ lá 
   const top = { id: 'top', type: 'number', value: '3', color: 'green' };
   const room = {
     drawPile: [],
-    discardPile: [top, { id: 'a', type: 'number', value: '1', color: 'red' }, { id: 'b', type: 'number', value: '2', color: 'blue' }]
+    discardPile: [{ id: 'a', type: 'number', value: '1', color: 'red' }, { id: 'b', type: 'number', value: '2', color: 'blue' }, top]
   };
   const player = { hand: [] };
   const drawn = drawCards(room, player, 2);
@@ -70,4 +70,18 @@ test('Chiều chơi và số bước chuyển lượt được áp dụng đúng
   assert.equal(nextPlayerId(room, 'b', 1), 'a');
   advanceTurn(room, 2);
   assert.equal(room.currentPlayerId, 'd');
+});
+
+
+test('Trạng thái gửi tới mỗi người chỉ chứa bài trên tay của chính họ', () => {
+  const room = {
+    code: 'ABC123', name: 'Test', private: false, hostId: 'a', phase: 'playing',
+    players: [{ id: 'a', name: 'An', hand: [{ id: 'secret-a' }], online: true, ready: true }, { id: 'b', name: 'Bình', hand: [{ id: 'secret-b' }], online: true, ready: true }],
+    drawPile: [], discardPile: [{ id: 'top', type: 'number', value: '4', color: 'blue' }], currentColor: 'blue', direction: 1,
+    currentPlayerId: 'a', turnDrawnCardId: null, challenge: null, pendingUno: null, winnerId: null, results: [], messages: [], lastAction: ''
+  };
+  const view = buildPlayerView(room, 'a');
+  assert.deepEqual(view.hand.map(card => card.id), ['secret-a']);
+  assert.equal(JSON.stringify(view).includes('secret-b'), false);
+  assert.equal(view.players.find(player => player.id === 'b').cardCount, 1);
 });
