@@ -127,7 +127,6 @@ export function attachUnoNamespace(io) {
       fail(callback, 'Chưa đến lượt của bạn.');
       return false;
     }
-    clearUnoWindow(room, player.id);
     return true;
   }
 
@@ -311,6 +310,7 @@ export function attachUnoNamespace(io) {
         return fail(callback, 'Hãy chọn màu tiếp theo.');
       }
 
+      clearUnoWindow(room, player.id);
       const previousColor = room.currentColor;
       const hadMatchingColor = card.type === 'wild4' ? hasMatchingColor(player.hand, previousColor) : false;
       player.hand.splice(cardIndex, 1);
@@ -371,6 +371,7 @@ export function attachUnoNamespace(io) {
       if (room.turnDrawnCardId) return fail(callback, 'Bạn đã rút bài trong lượt này.');
       const drawn = drawCards(room, player, 1);
       if (!drawn.length) return fail(callback, 'Không còn bài để rút.');
+      clearUnoWindow(room, player.id);
       room.lastAction = player.name + ' đã rút một lá bài.';
       addMessage(room, player.name + ' đã rút một lá bài.');
       if (isPlayable(drawn[0], room.discardPile.at(-1), room.currentColor)) {
@@ -388,6 +389,7 @@ export function attachUnoNamespace(io) {
       const { room, player } = auth;
       if (!currentTurn(room, player, callback)) return;
       if (!room.turnDrawnCardId) return fail(callback, 'Bạn chỉ có thể kết thúc lượt sau khi đã rút một lá bài.');
+      clearUnoWindow(room, player.id);
       addMessage(room, player.name + ' đã kết thúc lượt.');
       advanceTurn(room, 1);
       emitRoom(room);
@@ -450,6 +452,7 @@ export function attachUnoNamespace(io) {
       const pendingWinner = challenge.pendingWinnerId;
       room.challenge = null;
       if (pendingWinner && !challenge.hadMatchingColor) finishRound(room, pendingWinner);
+      else if (!challenge.hadMatchingColor) room.pendingUno = null;
       emitRoom(room);
       ack(callback, { ok: true, challenged: true });
     });
@@ -467,7 +470,10 @@ export function attachUnoNamespace(io) {
       room.challenge = null;
       addMessage(room, player.name + ' chấp nhận lá +4 và rút 4 lá.');
       if (pendingWinner) finishRound(room, pendingWinner);
-      else advanceAfterPenalty(room, player.id);
+      else {
+        room.pendingUno = null;
+        advanceAfterPenalty(room, player.id);
+      }
       emitRoom(room);
       ack(callback, { ok: true });
     });
