@@ -9,9 +9,7 @@
     "android:add": "npx cap add android",
     "android:sync": "npx cap sync android",
     "android:open": "npx cap open android",
-    "android:build": "npx cap build android",
-    "test": "node --test",
-    "check": "node --check server.js && node --check public/app.js && node --check game/uno/engine.js && node --check game/uno/socket.js"
+    "android:build": "npx cap build android"
   },
   "dependencies": {
     "express": "^4.21.2",
