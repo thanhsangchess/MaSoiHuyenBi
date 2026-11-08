@@ -2,8 +2,10 @@ import express from 'express';
 import http from 'node:http';
 import { Server } from 'socket.io';
 import { randomBytes, randomUUID } from 'node:crypto';
+import { attachUnoNamespace } from './game/uno/socket.js';
 
 const app=express();const server=http.createServer(app);const io=new Server(server,{pingTimeout:20000,cors:{origin:false}});
+const unoNamespace=attachUnoNamespace(io);
 app.use(express.static('public'));
 const rooms=new Map();
 const LOBBY_ROOM_TTL=4*60*60*1000;
@@ -252,4 +254,4 @@ io.on('connection',socket=>{
 });
 app.get('/health',(_,res)=>res.json({ok:true,rooms:rooms.size}));
 setInterval(expireStaleLobbyRooms,60*1000).unref();
-const PORT=Number(process.env.PORT)||3000;restoreRooms().then(()=>server.listen(PORT,()=>console.log(`Ma Sói: http://localhost:${PORT}`))).catch(e=>{console.error('Khởi động bị dừng để tránh ghi đè dữ liệu phòng:',e.message);process.exitCode=1});
+const PORT=Number(process.env.PORT)||3000;Promise.all([restoreRooms(),unoNamespace.ready]).then(()=>server.listen(PORT,()=>console.log(`Ma Sói + UNO Party: http://localhost:${PORT}`))).catch(e=>{console.error('Khởi động bị dừng để tránh ghi đè dữ liệu phòng:',e.message);process.exitCode=1});
